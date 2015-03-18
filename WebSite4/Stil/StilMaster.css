@@ -1,0 +1,183 @@
+﻿body{
+margin:0px;
+padding:0px;
+/*background-color:rgb(246,246,246);
+*/
+background-color:#000066;
+}
+.pozaComentContainer
+{
+    
+    background-color:black;
+    color:#FF6600;
+    margin:10px;
+}
+.comentsContainer
+{
+    height:650px;
+    overflow:scroll;
+}
+.invizibil
+{
+        position:absolute;
+    height:20px;
+    width:20px;
+    top:0px;
+    right:0px;
+    visibility:hidden;
+}
+.vizibil
+{
+        position:absolute;
+    height:20px;
+    width:20px;
+    top:0px;
+    right:0px;
+    visibility:visible;
+}
+
+.searchResults
+{
+    text-decoration: none;
+    background-color:Black;
+    color:#FF6600;
+    display:inline-block;
+    padding:50px;
+    margin:10px;
+    
+}
+.pozaMareContainer
+{
+    width:900px;
+    height:650px;
+    position:absolute;
+    top:10%;
+    left:20%;
+    z-index:3;
+    background:#CCCCCC;
+    
+}
+.pozaMare
+{
+float:left;
+    width:500px;
+    height:600px;
+}
+.albumLink
+{
+    padding:10px;
+    background-color:Black;
+    color:#FF6600;
+    text-decoration: none;
+    margin:10px;
+}
+.albumContainer
+{
+    display:inline-block;
+    float:left;
+    height:auto;
+    background-color:black;
+     margin:10px;
+
+}
+.imagineMica
+{
+    float:left;
+    width:100px;
+    height:100px;
+    margin:10px;
+}
+.panel1
+{
+    display:inline-block;
+    margin:5px;
+}
+.comment
+{
+    padding:5px;
+    border:3px solid white;
+    background-color:Black;
+    width:500px;
+    height:auto;
+    color:#FF6600;
+    margin:20px;
+}
+.reply
+{
+    margin:20px;
+background-color:Black;
+  width:300px;
+    height:auto;
+padding:20px; 
+border :3px solid white;
+}
+.linkNavigare
+{
+  color:#FF6600;
+  display:inline-block;
+  text-decoration: none;
+  padding-top:15px;
+  padding-bottom:0px;
+  padding-left:0px;
+  padding-right:0px;
+  border:0em;
+  margin:5px;
+}
+#navigator
+{
+    display:inline-block;
+    width:30%;
+    float:right;
+}
+.linkNavigare:hover
+{
+    border-bottom: 3px solid grey;
+}
+#MeniuDeNavigare
+{
+color:#FF6600;
+background-color:BLACK;
+width:100%;
+height:50px;
+margin:0px;
+}
+
+#ContinutContainer{
+margin-top:0px;
+margin-bottom:0px;
+margin-left:0px;
+margin-right:0px;
+width:100%;
+height:auto;
+}
+
+#Continut
+{
+background-color: #CCCCCC;
+width:50%;
+height:100%;
+margin-left:auto;
+
+margin-right:auto;
+border :1px solid black;
+padding:20px;
+/*background-color:rgb(246,246,246);*/
+}
+#RegisterTableContainer{
+width:50%;
+height:auto;
+margin-left:auto;
+margin-right:auto;
+background-color:black;
+margin:200px;
+color:orange;
+}
+#LoginTableContainer{
+width:50%;
+height:auto;
+margin-left:auto;
+margin-right:auto;
+background-color:black;
+margin:200px;
+color:orange;
+}

@@ -1,0 +1,41 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="WebForms_MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="Stil/StilMaster.css"  type="text/css"  rel="Stylesheet"/>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="MeniuDeNavigare"> 
+        <div id="navigator">
+        <a class="linkNavigare" href="Home.aspx">Home</a>
+        <a  class="linkNavigare" href="Login.aspx">Login</a>
+        <a class="linkNavigare" href="Register.aspx">Register</a>
+        <a  class="linkNavigare" href="LogOut.aspx">Logout</a>
+        </div>
+ 
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">  
+            </asp:ContentPlaceHolder>
+            <asp:TextBox ID="TextBox1" runat="server"  ></asp:TextBox>
+                 &nbsp; &nbsp;
+            <asp:Button ID="Button1" runat="server" Text="Cauta" onclick="Button1_Click" 
+                />
+            &nbsp;&nbsp;
+             <asp:Panel ID="Panel1" runat="server" CssClass="panel1">
+            </asp:Panel>
+           
+            </div>
+        <div id="ContinutContainer">
+            <div id="Continut"> 
+            <asp:ContentPlaceHolder id="ContentPlaceHolder2" runat="server">
+             </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
