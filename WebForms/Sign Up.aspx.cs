@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,7 +13,7 @@ public partial class WebForms_Sign_Up : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Label1.Text = "";
-    
+        Label1.ForeColor = Color.Red;
             if (Session["login"] != null)
             {
                 String utilizator = ((AppData)Session["login"]).Utilizator;
@@ -51,6 +52,12 @@ public partial class WebForms_Sign_Up : System.Web.UI.Page
                 return;
             }
 
+            //verific daca parola si confirmarea se potrivesc
+            if (!TextBox2.Text.Equals(TextBox3.Text))
+            {
+                Label1.Text = "Parolele nu se potrivesc";
+                return;
+            }
 
             //aici intru daca numele nu este folosit
             c = new SqlCommand("INSERT INTO Useri(Nume,Parola,Tip) VALUES(@User,@parola,@tip)", conn);

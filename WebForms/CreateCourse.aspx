@@ -27,7 +27,7 @@
     <p>
         <asp:TextBox id="TextBox2" TextMode="multiline" Columns="50" Rows="5" runat="server" /></p>
     <p>
-        <asp:Button ID="Button4" runat="server" Text="Creaza" />
+        <asp:Button ID="Button4" runat="server" Text="Creaza" OnClick="Button4_Click" />
     </p>
 </asp:Content>
 
