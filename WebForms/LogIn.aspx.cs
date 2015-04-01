@@ -17,9 +17,7 @@ public partial class WebForms_LogIn : System.Web.UI.Page
             String utilizator = ((AppData)Session["login"]).Utilizator;
             String parola = ((AppData)Session["login"]).Parola;
 
-            SqlConnection conn;
-            conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            //Crearea unui query
+            SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
             SqlCommand c = new SqlCommand("Select '1' FROM Useri WHERE UPPER(Nume)=UPPER(@User) AND UPPER(Parola)=UPPER(@parola)", conn);
             c.Parameters.Add(new SqlParameter("@User", TypeCode.String));
@@ -36,9 +34,7 @@ public partial class WebForms_LogIn : System.Web.UI.Page
     protected void Button1_Click(object sender, EventArgs e)
     {
 
-        SqlConnection conn;
-        conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-        //Crearea unui query
+        SqlConnection conn = DbConnection.GetSqlConnection();
         conn.Open();
         SqlCommand c = new SqlCommand("Select '1' FROM Useri WHERE UPPER(Nume)=UPPER(@User) AND UPPER(Parola)=UPPER(@parola)", conn);
         c.Parameters.Add(new SqlParameter("@User", TypeCode.String));

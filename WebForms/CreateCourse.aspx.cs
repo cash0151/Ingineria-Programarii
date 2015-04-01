@@ -21,9 +21,8 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
         {
 
             String nume_utilizator=((AppData) Session["login"]).Utilizator;
-            SqlConnection conn;
-            conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
-            //Crearea unui query
+            SqlConnection conn= DbConnection.GetSqlConnection();
+           
             conn.Open();
             SqlCommand c = new SqlCommand("SELECT id FROM useri WHERE nume=@nume AND tip='profesor'", conn);
             c.Parameters.Add(new SqlParameter("@nume", TypeCode.String));
@@ -43,6 +42,7 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
             c.Parameters.Add(new SqlParameter("@idProfesor", TypeCode.Int32));
             c.Parameters["@idProfesor"].Value = idProfesor;
             c.Parameters.Add(new SqlParameter("@Continut", TypeCode.String));
+            TextBox2.Text = TextBox2.Text.Replace(Environment.NewLine, "<br/>");
             c.Parameters["@Continut"].Value = TextBox2.Text;
             c.Parameters.Add(new SqlParameter("@idCategorie", TypeCode.Int32));
             c.Parameters["@idCategorie"].Value = DropDownList1.SelectedItem.Value;
