@@ -5,11 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Threading;
 
 public partial class WebForms_ProfilePage : System.Web.UI.Page
 {   
     SqlConnection con ;
-    string MyUserName;
+    string MyUserName;    
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -25,6 +26,8 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
         con.Close();
         }
+
+       
     }
 
 
@@ -78,6 +81,8 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             TabelCursuri.Rows.Add(row);
         }
         reader.Close();
+        if (!VerifyNota(GetUserId(MyUserName), UserId))
+            LoadRating();
     }
 
     public void ViewCurs(object sender, EventArgs e)
@@ -138,4 +143,42 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             return false;
         }
     }
+
+    public void LoadRating()
+    {
+        for (int i = 1; i <= 5; i++)
+        {
+            RatingImage ratingimg = new RatingImage("~/Images/steaalba.png");
+            ratingimg.Nota = i;
+            ratingimg.ID = i.ToString();
+            ratingimg.Attributes.Add("onmouseout", "ClearRating()");
+            ratingimg.Attributes.Add("onmouseover", "change"+i+"()");
+            PanelRating.Controls.Add(ratingimg);
+        }
+    }
+
+    public void GetNota(object sender, EventArgs e)
+    {
+       RatingImage NrStele = (RatingImage)sender;
+       int Nota = NrStele.Nota;
+    }
+
+    protected void Button4_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    public bool VerifyNota(int UserId,int ProfesorId)
+    {
+        
+        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId, con);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if (reader.Read())
+        {
+            
+            return true;
+        }
+        return false;
+    }
+
 }
