@@ -153,6 +153,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             ratingimg.ID = i.ToString();
             ratingimg.Attributes.Add("onmouseout", "ClearRating()");
             ratingimg.Attributes.Add("onmouseover", "change"+i+"()");
+            ratingimg.Click += new ImageClickEventHandler(GetNota);
             PanelRating.Controls.Add(ratingimg);
         }
     }
@@ -161,6 +162,12 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
     {
        RatingImage NrStele = (RatingImage)sender;
        int Nota = NrStele.Nota;
+       con.Open();
+       string Profilname = Request.QueryString["Nume"];
+       SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Nota,UserId) values(" + GetUserId(Profilname) + "," + Nota + "," + GetUserId(MyUserName) + ")", con);
+       System.Diagnostics.Debug.Write(cmd.CommandText);
+       cmd.ExecuteNonQuery();
+       con.Close();
     }
 
     protected void Button4_Click(object sender, EventArgs e)
