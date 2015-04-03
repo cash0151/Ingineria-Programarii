@@ -24,11 +24,10 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         catch{ }
         finally
         {
-        con.Close();
-        }
-
-       
+           con.Close();
+        }               
     }
+
 
 
     public void LoadSesssion()
@@ -41,8 +40,11 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         else
         {
             MyUserName = "";
+            TextBox1.Visible = false;
+            Button4.Visible = false;
         }
     }
+
 
 
     public void LoadTraining()
@@ -81,9 +83,17 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             TabelCursuri.Rows.Add(row);
         }
         reader.Close();
-        if (!VerifyNota(GetUserId(MyUserName), UserId))
-            LoadRating();
+        if (ProfilProfesor())
+        {
+            if (!VerifyNota(GetUserId(MyUserName), UserId))
+            {
+                LoadRating();
+            }
+        }
     }
+
+
+
 
     public void ViewCurs(object sender, EventArgs e)
     {
@@ -111,14 +121,16 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
     
 
+
     public SqlDataReader GetTraining(int UserId)
-    {
+    {   
         SqlCommand cmd = new SqlCommand("Select * from Cursuri where Profesor = " + UserId, con);
         SqlDataReader reader = cmd.ExecuteReader();
         return reader;
     }
 
     
+
 
     public int GetUserId(string Name)
     {
@@ -129,6 +141,9 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         reader.Close();
         return id;
     }
+
+
+
 
 
     public bool IsOtherProfil()
@@ -144,19 +159,28 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         }
     }
 
+
+
+
     public void LoadRating()
-    {
-        for (int i = 1; i <= 5; i++)
+    {   
+        Literal text = new Literal();
+        text.Text = "Nota<br />";
+        PanelRating.Controls.Add(text);
+        for (int index = 1; index <= 5; index++)
         {
             RatingImage ratingimg = new RatingImage("~/Images/steaalba.png");
-            ratingimg.Nota = i;
-            ratingimg.ID = i.ToString();
+            ratingimg.Nota = index;
+            ratingimg.ID = index.ToString();
             ratingimg.Attributes.Add("onmouseout", "ClearRating()");
-            ratingimg.Attributes.Add("onmouseover", "change"+i+"()");
+            ratingimg.Attributes.Add("onmouseover", "change"+index+"()");
             ratingimg.Click += new ImageClickEventHandler(GetNota);
             PanelRating.Controls.Add(ratingimg);
         }
     }
+
+
+
 
     public void GetNota(object sender, EventArgs e)
     {
@@ -165,19 +189,40 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
        con.Open();
        string Profilname = Request.QueryString["Nume"];
        SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Nota,UserId) values(" + GetUserId(Profilname) + "," + Nota + "," + GetUserId(MyUserName) + ")", con);
-       System.Diagnostics.Debug.Write(cmd.CommandText);
        cmd.ExecuteNonQuery();
        con.Close();
+       Response.Redirect(Request.RawUrl);
     }
+
+
 
     protected void Button4_Click(object sender, EventArgs e)
-    {
-
+    {       
+        con.Open();
+        string Profilname = Request.QueryString["Nume"];
+        SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Text,UserId) values(" + GetUserId(Profilname) + ",'" + TextBox1.Text + "'," + GetUserId(MyUserName) + ")", con);
+        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+        cmd.ExecuteNonQuery();
+        con.Close();
+        Response.Redirect(Request.RawUrl);
     }
 
+
+
+    public bool ProfilProfesor()
+    {   
+        string Profilname = Request.QueryString["Nume"];
+        SqlCommand cmd = new SqlCommand("Select Tip from Useri where Id = "+ GetUserId(Profilname) , con);        
+        string tip = (string)cmd.ExecuteScalar();
+        if (tip.Equals("profesor"))
+            return true;
+        return false;
+    }
+
+
+
     public bool VerifyNota(int UserId,int ProfesorId)
-    {
-        
+    {        
         SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId, con);
         SqlDataReader reader = cmd.ExecuteReader();
         if (reader.Read())
