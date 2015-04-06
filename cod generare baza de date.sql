@@ -31,6 +31,7 @@ CREATE TABLE [dbo].[Reviewuri] (
     [ProfesorId] INT           NULL,
     [Nota]       INT           NULL,
     [Text]       VARCHAR (500) NULL,
+	[UserId]   	INT NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Reviewuri_ToTable] FOREIGN KEY ([ProfesorId]) REFERENCES [dbo].[Useri] ([Id]),
     CONSTRAINT [FK_Reviewuri_ToTable_1] FOREIGN KEY ([CursId]) REFERENCES [dbo].[Cursuri] ([Id])
