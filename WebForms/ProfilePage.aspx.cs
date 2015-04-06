@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,7 +11,7 @@ using System.Threading;
 public partial class WebForms_ProfilePage : System.Web.UI.Page
 {   
     SqlConnection con ;
-    string MyUserName;    
+    string username;    
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,6 +21,39 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             con = DbConnection.GetSqlConnection();
             con.Open();
             LoadTraining();
+
+            Label1.Text = "";
+      
+            //daca nu este logat nu afisez butonul de adaugat traininguri
+            if (Session["login"] == null)
+            {
+                Button5.Visible = false;
+            }
+            else
+            {
+                username = ((AppData)Session["login"]).Utilizator;
+                //daca queryul nu este invalid spun asta
+                if (Request.QueryString["Nume"] == null)
+                {
+                    Label1.Text = "Queryul nu este valid";
+                    Button5.Visible = false;
+                    return;
+                }
+
+                 //doar daca userul curent este profilul lui si este profesor 
+                //arat butonul de creare de trainguri.
+                //prima data verific daca userul curent este pe profilul lui
+                if (!Request.QueryString["Nume"].Equals(username))
+                {
+                    Button5.Visible = false;
+                }
+                else
+                {
+                    //daca nu este profesor nu afisez butonul de adaugat traininguri
+
+                    if (esteProfesor(username) == false) Button5.Visible = false;
+                }
+            }
         }
         catch{ }
         finally
@@ -35,11 +69,11 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         if (Session["login"] != null)
         {
             AppData appData = Session["login"] as AppData;
-            MyUserName = appData.Utilizator;
+            username = appData.Utilizator;
         }
         else
         {
-            MyUserName = "";
+            username = "";
             TextBox1.Visible = false;
             Button4.Visible = false;
         }
@@ -85,7 +119,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         reader.Close();
         if (ProfilProfesor())
         {
-            if (!VerifyNota(GetUserId(MyUserName), UserId))
+            if (!VerifyNota(GetUserId(username), UserId))
             {
                 LoadRating();
             }
@@ -142,25 +176,33 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         return id;
     }
 
+    protected void Button5_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("CreateCourse.aspx");
+    }
 
-
-
+    public bool esteProfesor(String user)
+    {
+        SqlCommand c = new SqlCommand("SELECT '1' FROM useri WHERE nume=@nume AND tip='profesor'", con);
+        c.Parameters.Add(new SqlParameter("@nume", TypeCode.String));
+        c.Parameters["@nume"].Value = user;
+        Object o = (object)c.ExecuteScalar();
+        if (o == null) return false;
+        else return true;
+    }
 
     public bool IsOtherProfil()
     {
-        if (MyUserName.Equals(""))
+        if (username.Equals(""))
             return true;
         else
         {
             string Profilname = Request.QueryString["Nume"];
-            if (GetUserId(Profilname) != GetUserId(MyUserName))
+            if (GetUserId(Profilname) != GetUserId(username))
                 return true;
             return false;
         }
     }
-
-
-
 
     public void LoadRating()
     {   
@@ -188,7 +230,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
        int Nota = NrStele.Nota;
        con.Open();
        string Profilname = Request.QueryString["Nume"];
-       SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Nota,UserId) values(" + GetUserId(Profilname) + "," + Nota + "," + GetUserId(MyUserName) + ")", con);
+       SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Nota,UserId) values(" + GetUserId(Profilname) + "," + Nota + "," + GetUserId(username) + ")", con);
        cmd.ExecuteNonQuery();
        con.Close();
        Response.Redirect(Request.RawUrl);
@@ -200,7 +242,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
     {       
         con.Open();
         string Profilname = Request.QueryString["Nume"];
-        SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Text,UserId) values(" + GetUserId(Profilname) + ",'" + TextBox1.Text + "'," + GetUserId(MyUserName) + ")", con);
+        SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Text,UserId) values(" + GetUserId(Profilname) + ",'" + TextBox1.Text + "'," + GetUserId(username) + ")", con);
         System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         cmd.ExecuteNonQuery();
         con.Close();

@@ -62,5 +62,10 @@
          <br />
          <br />
      </asp:Panel>
+
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+    <br/>
+    <asp:Button ID="Button5" runat="server" OnClick="Button5_Click" Text="Add Training" />
+
 </asp:Content>
 
