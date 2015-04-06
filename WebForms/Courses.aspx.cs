@@ -17,7 +17,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
         object o = (object)c.ExecuteScalar();
         String continut = (String)o;
 
-        divcontent1.InnerHtml = continut;
+        divContent1.InnerHtml = continut;
       
         conn.Close();
     }
