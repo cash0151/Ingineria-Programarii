@@ -25,7 +25,7 @@
             <li>
                 <asp:Button ID="Button3" runat="server" OnClick="Button1_Click3" Text="Sign Up" /></li>
 
-            <li><a href="home.aspx">Home</a> </li>
+            <li><a href="/WebForms/home.aspx">Home</a> </li>
         </ul>
 
         <div runat="server" id="notificationsBlock">
