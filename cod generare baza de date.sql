@@ -1,8 +1,3 @@
-
-
-
-
-
 CREATE TABLE [dbo].[Useri] (
     [Id]  INT          IDENTITY (1, 1) NOT NULL,
 	[Nume] VARCHAR(50) NOT NULL,
@@ -48,6 +43,7 @@ CREATE TABLE [dbo].[Participanti] (
     [IdCurs] INT          NOT NULL,
     [IdUser] INT          NOT NULL,
     [Status] VARCHAR (50) NOT NULL,
+    [Vazut] NVARCHAR(50) NOT NULL DEFAULT 'NOT_SEEN', 
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Participanti_ToTable] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Useri] ([Id]),
     CONSTRAINT [FK_Participanti_ToTable_1] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Cursuri] ([Id])
