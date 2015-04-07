@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -45,6 +45,6 @@ public partial class WebForms_Home : System.Web.UI.Page
 
     protected void HomeButton_Click(object sender, EventArgs e)
     {
-        Response.Redirect("/WebForms/Home.aspx");
+        Response.Redirect("Home.aspx");
     }
 }

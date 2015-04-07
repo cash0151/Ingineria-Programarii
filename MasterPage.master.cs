@@ -34,15 +34,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
     }
     protected void Button1_Click2(object sender, EventArgs e)
     {
-        Response.Redirect("/WebForms/login.aspx");
+        Response.Redirect("login.aspx");
     }
     protected void Button1_Click3(object sender, EventArgs e)
     {
-        Response.Redirect("/WebForms/Sign Up.aspx");
+        Response.Redirect("Sign Up.aspx");
     }
     protected void Button4_Click(object sender, EventArgs e)
     {
         String username=((AppData) Session["login"]).Utilizator;
-        Response.Redirect("/WebForms/ProfilePage.aspx?Nume="+username);
+        Response.Redirect("ProfilePage.aspx?Nume="+username);
     }
 }
