@@ -55,10 +55,15 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 registerToThisCourse.Visible = true;
                 deleteFromThisCourse.Visible = false;
             }
-            else
+            else if (utilizator != null && r.HasRows == true)
             {
                 registerToThisCourse.Visible = false;
                 deleteFromThisCourse.Visible = true;
+            }
+            else
+            {
+                registerToThisCourse.Visible = false;
+                deleteFromThisCourse.Visible = false;
             }
 
             c = new SqlCommand("SELECT * FROM Participanti WHERE status='ACTIVE' AND IdCurs = (SELECT id from Cursuri WHERE NumeCurs = @NumeCurs)", conn);
