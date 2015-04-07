@@ -27,10 +27,14 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void Button1_Click(object sender, EventArgs e)
     {
         Session["login"] = null;
+        Response.Redirect(Request.RawUrl);
+     
+        /*
+
         Button1.Visible = false;
         Button2.Visible = true;
         Button3.Visible = true;
-        
+         */
     }
     protected void Button1_Click2(object sender, EventArgs e)
     {
