@@ -45,7 +45,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 c = new SqlCommand("SELECT * FROM Participanti WHERE IdUser=@IdUser AND status IN ('ACTIVE', 'PENDING') AND IdCurs = (SELECT id from Cursuri WHERE NumeCurs = @NumeCurs)", conn);
                 c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
                 c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
-                System.Diagnostics.Debug.WriteLine(Request.QueryString["Curs"]);
                 c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
                 c.Parameters["@idUser"].Value = idUser;
                 r = c.ExecuteReader();
