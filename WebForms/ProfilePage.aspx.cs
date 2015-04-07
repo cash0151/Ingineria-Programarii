@@ -20,7 +20,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             con = DbConnection.GetSqlConnection();
             con.Open();
-            LoadTraining();
+          
 
             Label1.Text = "";
       
@@ -54,6 +54,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                     if (esteProfesor(username) == false) Button5.Visible = false;
                 }
             }
+            LoadTraining();
         }
         catch{ }
         finally
@@ -264,8 +265,8 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
 
     public bool VerifyNota(int UserId,int ProfesorId)
-    {        
-        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId, con);
+    {
+        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId + "and Nota is not NULL", con);
         SqlDataReader reader = cmd.ExecuteReader();
         if (reader.Read())
         {

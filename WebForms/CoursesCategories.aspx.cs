@@ -47,6 +47,12 @@ public partial class WebForms_CoursesCategories : System.Web.UI.Page
     public void CourseClick(object sender, EventArgs e)
     {
         LinkButton Curs = (LinkButton)sender;
-        Response.Redirect("Courses.aspx?Curs=" + Curs.Text);
+        con = DbConnection.GetSqlConnection();
+        con.Open();
+        SqlCommand cmd = new SqlCommand("Select Id from Cursuri where NumeCurs = '" + Curs.Text + "'", con);
+        SqlDataReader reader = cmd.ExecuteReader();
+        reader.Read();
+        int CursId = reader.GetInt32(0);
+        Response.Redirect("Courses.aspx?Curs=" + CursId);
     }
 }

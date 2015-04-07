@@ -26,7 +26,7 @@ public partial class WebForms_Home : System.Web.UI.Page
         {
             MenuItem categoryItem = new MenuItem((string)parentItem["NumeCategorie"]);
             ButtonMeniu.ChildItems.Add(categoryItem);
-            categoryItem.NavigateUrl = "Coursescategories.aspx?Categorie="+(int)parentItem["Id"];  
+            categoryItem.NavigateUrl = "CoursesCategories.aspx?Categorie="+(int)parentItem["Id"];  
 
         }
         menu.DataBind();
