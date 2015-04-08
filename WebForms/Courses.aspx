@@ -53,8 +53,14 @@
          <br />
     </asp:Panel>
     <div runat="server" ID="divContent1" > 
-    
-</div>
+    </div>
+
+    <div runat="server" id="registeredUsers">
+        Useri inregistrati la acest curs:<br />
+    </div>
+
+    <asp:Button ID="registerToThisCourse" runat="server" Text="Register to this course" onClick="registerToThisCourseAction"/>
+    <asp:Button ID="deleteFromThisCourse" runat="server" Text="Delete from this course" onClick="deleteFromThisCourseAction"/>
 
 </asp:Content>
 

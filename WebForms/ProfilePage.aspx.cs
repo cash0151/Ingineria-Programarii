@@ -20,7 +20,6 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             con = DbConnection.GetSqlConnection();
             con.Open();
-          
 
             Label1.Text = "";
       
@@ -54,6 +53,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                     if (esteProfesor(username) == false) Button5.Visible = false;
                 }
             }
+
             LoadTraining();
         }
         catch{ }
