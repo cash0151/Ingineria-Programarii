@@ -1,8 +1,3 @@
-
-
-
-
-
 CREATE TABLE [dbo].[Useri] (
     [Id]  INT          IDENTITY (1, 1) NOT NULL,
 	[Nume] VARCHAR(50) NOT NULL,
@@ -31,6 +26,7 @@ CREATE TABLE [dbo].[Reviewuri] (
     [ProfesorId] INT           NULL,
     [Nota]       INT           NULL,
     [Text]       VARCHAR (500) NULL,
+	[UserId]   	INT NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Reviewuri_ToTable] FOREIGN KEY ([ProfesorId]) REFERENCES [dbo].[Useri] ([Id]),
     CONSTRAINT [FK_Reviewuri_ToTable_1] FOREIGN KEY ([CursId]) REFERENCES [dbo].[Cursuri] ([Id])
@@ -47,6 +43,7 @@ CREATE TABLE [dbo].[Participanti] (
     [IdCurs] INT          NOT NULL,
     [IdUser] INT          NOT NULL,
     [Status] VARCHAR (50) NOT NULL,
+    [Vazut] NVARCHAR(50) NOT NULL DEFAULT 'NOT_SEEN', 
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Participanti_ToTable] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Useri] ([Id]),
     CONSTRAINT [FK_Participanti_ToTable_1] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Cursuri] ([Id])

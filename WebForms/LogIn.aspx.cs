@@ -35,16 +35,7 @@ public partial class WebForms_LogIn : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        if (TextBox1.Text.Equals(""))
-        {
-            Label1.Text = "Campul cu numele utilizatorului nu poate fii gol";
-            return;
-        }
-        if (TextBox2.Text.Equals(""))
-        {
-            Label1.Text = "Campul cu parola nu poate fii gol";
-            return;
-        }
+
         SqlConnection conn = DbConnection.GetSqlConnection();
         conn.Open();
         SqlCommand c = new SqlCommand("Select '1' FROM Useri WHERE UPPER(Nume)=UPPER(@User) AND UPPER(Parola)=UPPER(@parola)", conn);
