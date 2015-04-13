@@ -76,6 +76,8 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
                 conn.Close();
                 TextBox1.Text = "";
                 TextBox2.Text = "";
+                Label1.Text = "Curs creat cu succes";
+                Label1.ForeColor = Color.Green;
             }
             else
             {
