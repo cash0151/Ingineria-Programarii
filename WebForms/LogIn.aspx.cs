@@ -35,7 +35,16 @@ public partial class WebForms_LogIn : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-
+        if (TextBox1.Text.Equals(""))
+        {
+            Label1.Text = "Campul cu numele utilizatorului nu poate fii gol";
+            return;
+        }
+        if (TextBox2.Text.Equals(""))
+        {
+            Label1.Text = "Campul cu parola nu poate fii gol";
+            return;
+        }
         SqlConnection conn = DbConnection.GetSqlConnection();
         conn.Open();
         SqlCommand c = new SqlCommand("Select '1' FROM Useri WHERE UPPER(Nume)=UPPER(@User) AND UPPER(Parola)=UPPER(@parola)", conn);
@@ -49,6 +58,7 @@ public partial class WebForms_LogIn : System.Web.UI.Page
         {
             logatCuSucces = true;
             Session["login"] = new AppData(TextBox1.Text, TextBox2.Text);
+            conn.Close();
             Response.Redirect("Home.aspx");
         }
         if (logatCuSucces == false) Label1.Text="Numele de utilizator sau parola sunt incorecte";

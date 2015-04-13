@@ -24,7 +24,7 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
         c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
         c.Parameters["@NumeCurs"].Value = nume;
         o = c.ExecuteScalar();
-        
+        conn.Close();
         if (o== null) return false;
         else return true;
         
@@ -32,7 +32,16 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
 
     protected void Button4_Click(object sender, EventArgs e)
     {
-      
+        if (TextBox1.Text.Equals(""))
+        {
+            Label1.Text = "Cursul trebuie sa aibe un nume";
+            return;
+        }
+        if (TextBox2.Text.Equals(""))
+        {
+            Label1.Text = "Cursul trebuie sa aibe o descriere";
+            return;
+        }
 
             if (DropDownList1.SelectedIndex < 0)
             {
@@ -51,6 +60,7 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
                 if (idProfesor ==-1)
                 {
                     Label1.Text = "Nu am putut crea cursul pentru ca nu aveti drepturi";
+                    conn.Close();
                     return;
                 }
 
@@ -59,6 +69,7 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
                 if (existaNumeleCursului == true)
                 {
                     Label1.Text = "Acest nume pentru training este deja in folositna";
+                    conn.Close();
                     return;
                 }
 
@@ -76,12 +87,15 @@ public partial class WebForms_CreateCourse : System.Web.UI.Page
                 conn.Close();
                 TextBox1.Text = "";
                 TextBox2.Text = "";
+                Label1.ForeColor = Color.Green;
+                Label1.Text = "Curs creat cu succes";
+                
             }
             else
             {
                 Label1.Text = "Nu esti logat";
             }
-
+          
         
     }
     public int getIdProfesor(String user)
