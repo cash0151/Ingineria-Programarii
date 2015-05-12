@@ -11,17 +11,31 @@ public partial class WebForms_Courses : System.Web.UI.Page
 {
     protected void Page_Init(object sender, EventArgs e)
     {
+        Object o;
         if (Request.QueryString["Curs"] != null)
         {
             SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
-            SqlCommand c = new SqlCommand("SELECT Continut FROM cursuri WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
+            SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program FROM cursuri WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
             c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
             c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
-            object o = (object)c.ExecuteScalar();
-            String continut = (String)o;
-         
-            divContent1.InnerHtml = continut;
+            SqlDataReader r = null;
+            r=c.ExecuteReader();
+            bool existaCursul = false;
+            while (r.Read())
+            {
+                existaCursul = true;
+                divContent1.InnerHtml = (String)r["Continut"];
+                divContent2.InnerHtml = (String)r["Locatie"];
+                divContent3.InnerHtml = (String)r["Program"];
+            }
+            r.Close();
+            if (existaCursul == false)
+            {
+                //in cazul in care cursul nu exista ma intorc pe pagina principala
+                Response.Redirect("Home.aspx");
+            }
+
 
             String utilizator;
             if (Session["login"] != null)
@@ -33,7 +47,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 utilizator = null;
             }
 
-            SqlDataReader r = null;
+          
             if (utilizator != null)
             {
                 c = new SqlCommand("SELECT id from Useri WHERE Nume=@NumeUser", conn);
@@ -90,6 +104,11 @@ public partial class WebForms_Courses : System.Web.UI.Page
             }
             
             conn.Close();
+        }
+        else
+        {
+            //in cazul in care query stringul este gol ma intorc pe pagina principala
+            Response.Redirect("Home.aspx");
         }
     }
 

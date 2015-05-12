@@ -19,11 +19,18 @@
     <form id="form1" runat="server">
         <ul>
             <li>
-                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Logout" /></li>
+                
+               
+               <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
+            </li>
             <li>
-                <asp:Button ID="Button2" runat="server" OnClick="Button1_Click2" Text="Login" /></li>
+
+                <asp:LinkButton ID="LinkButton2" runat="server">Login</asp:LinkButton>
+            </li>
             <li>
-                <asp:Button ID="Button3" runat="server" OnClick="Button1_Click3" Text="Sign Up" /></li>
+              
+                <asp:LinkButton ID="LinkButton3" runat="server">Sign Up</asp:LinkButton>
+            </li>
 
             <li><a href="/WebForms/home.aspx">Home</a> </li>
         </ul>

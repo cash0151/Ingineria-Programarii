@@ -3,10 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
-
+    <p>Detalii curs:</p>
     <div runat="server" id="divContent1">
+         
     </div>
-
+     <p>Locatie:</p>
+        <div runat="server" id="divContent2">
+              
+    </div>
+      <p>Program:</p>
+            <div runat="server" id="divContent3">
+                 
+    </div>
     <div runat="server" id="registeredUsers">
         Useri inregistrati la acest curs:<br />
     </div>

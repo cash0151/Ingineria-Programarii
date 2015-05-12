@@ -10,18 +10,21 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Init(object sender, EventArgs e)
     {
+        LinkButton1.Click += new EventHandler(Button1_Click);
+        LinkButton2.Click += new EventHandler(Button1_Click2);
+        LinkButton3.Click += new EventHandler(Button1_Click3);
         //daca nu sunt logat sa nu afisez log out si nici butonul de profil
         if (Session["login"] == null)
         {
-            Button1.Visible = false;
+            LinkButton1.Visible = false;
             Button4.Visible = false;
             notificationsBlock.Visible = false;
         }
         else
         {
             //daca sunt deja logat sa nu afisez login si sign up
-            Button2.Visible = false;
-            Button3.Visible = false;
+            LinkButton2.Visible = false;
+            LinkButton3.Visible = false;
             notificationsBlock.Visible = true;
 
             checkForNotifications();
@@ -76,6 +79,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 Label1.InnerHtml = "Nu aveti notificari!";
             }
+            conn.Close();
         }
     }
 
