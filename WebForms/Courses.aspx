@@ -4,9 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
 
-    <div runat="server" ID="divContent1" > 
-    
-</div>
+    <div runat="server" id="divContent1">
+    </div>
 
 </asp:Content>
 
