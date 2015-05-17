@@ -1,1 +1,20 @@
-12312
+--toti profesorii ce predau la acea materie
+Select u.Nume,AVG(Nota)
+From Reviewuri r,Cursuri c,Preferinte p, Useri u
+Where r.ProfesorId = c.Profesor AND p.Categorie = c.Categorie AND c.Profesor = u.Id And p.IdUser = 9
+GROUP BY u.Nume
+Order BY AVG(Nota)
+
+--toate Cursurile cu nota din categorii
+Select  c.NumeCurs,AVG(Nota)
+From Reviewuri r,Cursuri c,Preferinte p
+Where r.CursId = c.Id AND p.Categorie =c.Categorie  And p.IdUser = 9
+GROUP BY c.NumeCurs
+Order BY AVG(Nota) Desc
+
+--Nu merge NVL
+Select c.NumeCurs,u.Nume ,c.Id,c.Profesor
+From Cursuri c, Preferinte p , Useri u
+Where c.Categorie = p.Categorie AND u.Id = c.Profesor And p.IdUser  = 9
+GROUP by c.Id,c.Profesor,c.NumeCurs,u.Nume
+Order by ((Select ISNULL(AVG(r.Nota),-1) From Reviewuri r Where r.CursId = c.Id)+(Select ISNULL(AVG(r.Nota),-1) From Reviewuri r Where r.CursId = c.Profesor))/2 DESC

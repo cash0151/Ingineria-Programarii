@@ -67,5 +67,37 @@
     <br/>
     <asp:Button ID="Button5" runat="server" OnClick="Button5_Click" Text="Add Training" />
 
+    <!-- *********-->
+
+    <p>
+        <asp:Button ID="selectPreferinta" runat="server" Text="Setare Categorii Preferinte" OnClick="selectPreferinta_Click" Width="224px" />
+    </p>
+
+    <p> Nume cursurilor ce fac parte din categoriile selectate ce deja au o nota si la care ati putea particicpa: </p>
+     <asp:Table ID="TableCursuri" runat="server">
+           <asp:TableHeaderRow BackColor=Aqua>
+                    <asp:TableHeaderCell> Nume Curs </asp:TableHeaderCell>
+                    <asp:TableHeaderCell> Valoare Medie Review </asp:TableHeaderCell>                                        
+             </asp:TableHeaderRow>
+        </asp:Table>
+
+    <p> Nume de profesori ordonati dupa review ce predau Traninguri de interes: </p>
+     <asp:Table ID="TabelProfCursuriSelectate" runat="server">
+           <asp:TableHeaderRow BackColor=Aqua>
+                    <asp:TableHeaderCell> Nume Profesor </asp:TableHeaderCell>
+                    <asp:TableHeaderCell> Valoare Medie </asp:TableHeaderCell>                                        
+             </asp:TableHeaderRow>
+        </asp:Table>
+
+    <p> Perechile curs profesor la care nu ai participat si care au fost vodate drept clele mai bune de comuitate: </p>
+     <asp:Table ID="TablePerechi" runat="server">
+           <asp:TableHeaderRow BackColor=Aqua>
+                    <asp:TableHeaderCell> Nume Curs </asp:TableHeaderCell>
+                    <asp:TableHeaderCell> Nume Profesor </asp:TableHeaderCell>                                        
+             </asp:TableHeaderRow>
+        </asp:Table>
+  <!--  <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> -->
+    <!-- *********-->
+
 </asp:Content>
 
