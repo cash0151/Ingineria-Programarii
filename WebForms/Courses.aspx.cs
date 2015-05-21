@@ -35,7 +35,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 //in cazul in care cursul nu exista ma intorc pe pagina principala
                 Response.Redirect("Home.aspx");
             }
-
+            //Scriu ce titlu are cursul
+            titluCurs.Text = Request.QueryString["Curs"];
 
             String utilizator;
             if (Session["login"] != null)
