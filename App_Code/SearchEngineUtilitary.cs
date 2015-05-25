@@ -80,6 +80,7 @@ public class SearchEngineUtilitary
     {
         List<CourseValueObject> sortedCourses = unsortedCourses;
         sortedCourses.Sort();
+        sortedCourses.Reverse();
         List<CourseValueObject> courses = new List<CourseValueObject>();
 
         for (int index = 0; index < numberOfWantedCourses; index++)
