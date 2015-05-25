@@ -8,11 +8,26 @@ using System.Configuration;
 /// <summary>
 /// Summary description for DbConnection
 /// </summary>
-public static class DbConnection
+public class DbConnection
 {
     private static SqlConnection my_connection;
+    private static DbConnection instance;
 
-    public static SqlConnection GetSqlConnection()
+    private DbConnection() { }
+
+    public static DbConnection Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new DbConnection();
+            }
+            return instance;
+        }
+    }
+
+    public SqlConnection GetSqlConnection()
     {
         string ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
          my_connection = new SqlConnection(ConnectionString);

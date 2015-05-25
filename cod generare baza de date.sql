@@ -1,3 +1,5 @@
+use [show&tell] ;
+
 CREATE TABLE [dbo].[Useri] (
     [Id]  INT          IDENTITY (1, 1) NOT NULL,
 	[Nume] VARCHAR(50) NOT NULL,
