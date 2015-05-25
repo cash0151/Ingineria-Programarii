@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
     <p><asp:Label ID="titluCurs" runat="server" Text="Label"></asp:Label></p>
     <p>
-        
+         <asp:LinkButton ID="LinkButton1" runat="server"></asp:LinkButton>
         Detalii curs:</p>
     <div runat="server" id="divContent1">
          
