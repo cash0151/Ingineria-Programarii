@@ -22,9 +22,25 @@
         
     </p>
     <p>
-        Continut</p>
+        Detalii curs:</p>
     <p>
         <asp:TextBox id="TextBox2" TextMode="multiline" Columns="50" Rows="5" runat="server" /></p>
+    <p>
+        Locul desfasurarii trainingului:</p>
+    <p>
+        <asp:TextBox id="TextBox3" TextMode="multiline" Columns="50" Rows="5" runat="server" Height="38px" Width="404px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       
+        
+    </p>
+    <p>
+        Programul desfasurarii trainingului:
+    </p>
+    <p>
+         <asp:TextBox id="TextBox4" TextMode="multiline" Columns="50" Rows="5" runat="server" Height="38px" Width="404px" />
+    </p>
+    <asp:Label ID="Label2" runat="server" Text="Oras:"></asp:Label>
+&nbsp;&nbsp;
+    <asp:Label ID="Label3" runat="server" Text="Bucuresti"></asp:Label>
     <p>
         <asp:Button ID="Button4" runat="server" Text="Creaza" OnClick="Button4_Click" />
     </p>

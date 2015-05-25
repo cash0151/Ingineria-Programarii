@@ -8,9 +8,24 @@ using System.Configuration;
 /// <summary>
 /// Summary description for DbConnection
 /// </summary>
-public static class DbConnection
+public class DbConnection
 {
     private static SqlConnection my_connection;
+    private static DbConnection instance;
+
+    private DbConnection() { }
+
+    public static DbConnection Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new DbConnection();
+            }
+            return instance;
+        }
+    }
 
     public static SqlConnection GetSqlConnection()
     {
