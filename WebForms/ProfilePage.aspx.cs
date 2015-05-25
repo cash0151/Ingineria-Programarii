@@ -12,7 +12,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
     SqlConnection con ;
     string username;    
 
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         LoadSesssion();
         try
@@ -49,10 +49,19 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 {
                     //daca nu este profesor nu afisez butonul de adaugat traininguri
 
-                    if (esteProfesor(username) == false) Button5.Visible = false;
+                    if (esteProfesor(username) == false)
+                    {
+                        Button5.Visible = false;
+                    }
+                    else
+                    {
+                        ;
+                    }
                 }
             }
             LoadTraining();
+            LoadCursuriLaCareSuntInscris();
+            LoadPeopleEnrolledToMyCourses();
         }
         catch{ }
         finally
@@ -138,6 +147,203 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             }
         }
     }
+
+    public void LoadCursuriLaCareSuntInscris()
+    {
+        string Profilname = Request["Nume"];
+        int UserId = GetUserId(Profilname);
+        bool OtherProfil = IsOtherProfil();
+
+        con = DbConnection.GetSqlConnection();
+        con.Open();
+
+        SqlCommand c;
+        SqlDataReader r;
+        string numeCurs = null;
+        
+        if (OtherProfil == false)
+        {
+            c = new SqlCommand("SELECT * FROM Participanti WHERE IdUser=@IdUser AND Status IN ('ACTIVE', 'PENDING')", con);
+            c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
+            c.Parameters["@idUser"].Value = UserId;
+            r = c.ExecuteReader();
+
+            while (r.Read())
+            {
+                numeCurs = getCourseNameById(r["idCurs"].ToString());
+
+                TableRow row = new TableRow();
+
+                TableCell TrainingCell = new TableCell();
+                LinkButton Curs = new LinkButton();
+                Curs.Text = numeCurs;
+                Curs.Click += new EventHandler(ViewCurs);
+                TrainingCell.Controls.Add(Curs);
+                row.Cells.Add(TrainingCell);
+
+                TableCell DeleteTrainingCell = new TableCell();
+                ButtonTraining Delete = new ButtonTraining();
+                if (r["Status"].ToString() == "ACTIVE")
+                {
+                    Delete.Text = "Sterge-ma de la acest curs";
+                }
+                else
+                {
+                    Delete.Text = "Cerere trimisa. Anuleaza cererea";
+                }
+                Delete.Training = r["IdCurs"] + "*" + UserId.ToString();
+                Delete.Click += new EventHandler(deleteMeFromThisCourse);
+                DeleteTrainingCell.Controls.Add(Delete);
+                row.Cells.Add(DeleteTrainingCell);
+
+                TabelCursuriLaCareSuntInscris.Rows.Add(row);
+            }
+        }
+
+        con.Close();
+    }
+
+    public void LoadPeopleEnrolledToMyCourses()
+    {
+        con = DbConnection.GetSqlConnection();
+        con.Open();
+
+        string Profilname = Request["Nume"];
+        int UserId = GetUserId(Profilname);
+        bool isTeacher = esteProfesor(Profilname);
+        bool OtherProfil = IsOtherProfil();
+        List<int> teacherCoursesList = new List<int>();
+
+        SqlCommand c;
+        SqlDataReader r, s;
+        string numeCurs = null;
+
+        if (OtherProfil == false && isTeacher == true)
+        {
+            c = new SqlCommand("SELECT * FROM Cursuri WHERE Profesor=@IdProfesor", con);
+            c.Parameters.Add(new SqlParameter("@IdProfesor", TypeCode.Int32));
+            c.Parameters["@IdProfesor"].Value = UserId;
+            r = c.ExecuteReader();
+
+            while (r.Read())
+            {
+                teacherCoursesList.Add(Int32.Parse(r["Id"].ToString()));
+            }
+            int[] teacherCoursesArray = teacherCoursesList.ToArray();
+
+            c = new SqlCommand("SELECT * FROM Participanti WHERE IdCurs IN (" + string.Join(",", teacherCoursesArray) + ")", con);
+            r = c.ExecuteReader();
+
+            TableHeaderRow headerRow = new TableHeaderRow();
+            headerRow.BackColor = System.Drawing.ColorTranslator.FromHtml("Aqua");
+
+            TableCell CourseNameCell = new TableCell();
+            CourseNameCell.Text = "Nume curs";
+            headerRow.Cells.Add(CourseNameCell);
+
+            TableCell UserNameCell = new TableCell();
+            UserNameCell.Text = "Nume user";
+            headerRow.Cells.Add(UserNameCell);
+
+            TableCell ActionCell = new TableCell();
+            ActionCell.Text = "Actiuni";
+            headerRow.Cells.Add(ActionCell);
+
+            oameniInscrisiLaCursurileMele.Rows.Add(headerRow);
+
+            while (r.Read())
+            {
+                TableRow row = new TableRow();
+
+                TableCell TrainingCell = new TableCell();
+                LinkButton Curs = new LinkButton();
+                Curs.Text = getCourseNameById(r["IdCurs"].ToString());
+                Curs.Click += new EventHandler(ViewCurs);
+                TrainingCell.Controls.Add(Curs);
+                row.Cells.Add(TrainingCell);
+
+                TableCell UserCell = new TableCell();
+                UserCell.Text = getUsernameById(r["IdUser"].ToString());
+                row.Cells.Add(UserCell);
+
+                TableCell DeleteCell = new TableCell();
+                ButtonTraining Delete = new ButtonTraining();
+                Delete.Text = "Sterge";
+                Delete.Training = "/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + r["IdUser"].ToString() + "&idCurs=" + r["idCurs"];
+                Delete.Click += new EventHandler(goToDeletePage);
+                DeleteCell.Controls.Add(Delete);
+                row.Cells.Add(DeleteCell);
+
+                oameniInscrisiLaCursurileMele.Rows.Add(row);
+            }
+        }
+
+        con.Close();
+    }
+
+    public void deleteMeFromThisCourse(object sender, EventArgs e)
+    {
+        ButtonTraining Delete = (ButtonTraining)sender;
+        string[] courseAndUserIds = Delete.Training.Split('*');
+
+        SqlConnection conn = DbConnection.GetSqlConnection();
+        conn.Open();
+        SqlCommand c = new SqlCommand("DELETE FROM Participanti WHERE IdCurs=@idCurs AND IdUser=@idUser", conn);
+        c.Parameters.Add(new SqlParameter("@idCurs", TypeCode.Int32));
+        c.Parameters["@idCurs"].Value = Int32.Parse(courseAndUserIds[0]);
+        c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
+        c.Parameters["@idUser"].Value = Int32.Parse(courseAndUserIds[1]);
+        c.ExecuteReader();
+
+        conn.Close();
+
+        Response.Redirect(Request.RawUrl);
+    }
+
+    public string getCourseNameById(string courseId)
+    {
+        SqlCommand c;
+        SqlDataReader r;
+        string numeCurs = null;
+
+        c = new SqlCommand("SELECT NumeCurs FROM Cursuri WHERE Id=@IdCurs", con);
+        c.Parameters.Add(new SqlParameter("@idCurs", TypeCode.Int32));
+        c.Parameters["@idCurs"].Value = courseId;
+        r = c.ExecuteReader();
+
+        while (r.Read())
+        {
+            numeCurs = r["NumeCurs"].ToString();
+        }
+
+        return numeCurs;
+    }
+
+    public string getUsernameById(string userId)
+    {
+        SqlCommand c;
+        SqlDataReader r;
+        string numeUser = null;
+
+        c = new SqlCommand("SELECT Nume FROM Useri WHERE Id=@IdUser", con);
+        c.Parameters.Add(new SqlParameter("@IdUser", TypeCode.Int32));
+        c.Parameters["@IdUser"].Value = userId;
+        r = c.ExecuteReader();
+
+        while (r.Read())
+        {
+            numeUser = r["Nume"].ToString();
+        }
+
+        return numeUser;
+    }
+
+    public void goToDeletePage(object sender, EventArgs e)
+    {
+        ButtonTraining Delete = (ButtonTraining)sender;
+        Response.Redirect(Delete.Training);
+    }
+
     public string GetUsername()
     {
         AppData app = (AppData)Session["login"];
@@ -278,7 +484,6 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         con.Open();
         string Profilname = Request.QueryString["Nume"];
         SqlCommand cmd = new SqlCommand("insert into Reviewuri (ProfesorId,Text,UserId) values(" + GetUserId(Profilname) + ",'" + TextBox1.Text + "'," + GetUserId(username) + ")", con);
-        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         cmd.ExecuteNonQuery();
         con.Close();
         Response.Redirect(Request.RawUrl);

@@ -47,15 +47,17 @@ CREATE TABLE [dbo].[Preferinte] (
     CONSTRAINT [FK_Preferinte_ToTable] FOREIGN KEY ([IdUser]) REFERENCES [dbo].[Useri] ([Id]),
     CONSTRAINT [FK_Preferinte_ToTable_1] FOREIGN KEY ([Categorie]) REFERENCES [dbo].[Categorii_Cursuri] ([Id])
 );
+
 CREATE TABLE [dbo].[Participanti] (
-    [Id]     INT          IDENTITY (1, 1) NOT NULL,
-    [IdCurs] INT          NOT NULL,
-    [IdUser] INT          NOT NULL,
-    [Status] VARCHAR (50) NOT NULL,
-    [Vazut] NVARCHAR(50) NOT NULL DEFAULT 'NOT_SEEN', 
+    [Id]     INT           IDENTITY (1, 1) NOT NULL,
+    [IdCurs] INT           NOT NULL,
+    [IdUser] INT           NOT NULL,
+    [Status] VARCHAR (50)  NOT NULL,
+    [Vazut]  NVARCHAR (50) DEFAULT ('NOT_SEEN') NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Participanti_ToTable] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Useri] ([Id]),
-    CONSTRAINT [FK_Participanti_ToTable_1] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Cursuri] ([Id])
+    CONSTRAINT [FK_Participanti_ToTable_1] FOREIGN KEY ([IdCurs]) REFERENCES [dbo].[Cursuri] ([Id]),
+	CONSTRAINT [Unique_IdCurs&IdUser] UNIQUE ([IdCurs], [IdUser])
 );
 
 

@@ -72,7 +72,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
                             while (t.Read())
                             {
-                                notificare += "User-ul '" + t["Nume"] + "' solicita inscrierea la cursul <a href='/WebForms/Courses.aspx?Curs=" + r["NumeCurs"] + "'>" + r["NumeCurs"] + "</a><br/>";
+                                notificare += "User-ul '" + t["Nume"] + "' solicita inscrierea la cursul <a href='/WebForms/Courses.aspx?Curs=" + r["NumeCurs"] + "'>" + r["NumeCurs"] + "</a>&nbsp;<a href='/WebForms/AcceptCourseRegistrationPage.aspx?idDoritor=" + s["IdUser"].ToString() + "&idCurs=" + r["id"] + "'>Accept</a>&nbsp;<a href='/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + s["IdUser"].ToString() + "&idCurs=" + r["id"] + "'>Decline</a><br/>";
                             }
                         }
                     }
