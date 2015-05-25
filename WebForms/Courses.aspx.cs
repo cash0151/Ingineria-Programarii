@@ -11,11 +11,14 @@ public partial class WebForms_Courses : System.Web.UI.Page
 {
     protected void Page_Init(object sender, EventArgs e)
     {
+
         Object o;
+
         if (Request.QueryString["Curs"] != null)
         {
             SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
+
             SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program FROM cursuri WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
             c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
             c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
@@ -165,5 +168,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
         c.ExecuteReader();
 
         Response.Redirect(Request.RawUrl);
+
     }
 }

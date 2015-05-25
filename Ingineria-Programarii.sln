@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Ingineria-Programarii", ".", "{139E1D62-9EBA-403C-A87F-14A31BA24756}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/Ingineria-Programarii"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\Desktop\echipa\New folder (2)\Ingineria-Programarii\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Ingineria-Programarii\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Ingineria-Programarii"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\Desktop\echipa\New folder (2)\Ingineria-Programarii\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Ingineria-Programarii\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "17245"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{139E1D62-9EBA-403C-A87F-14A31BA24756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{139E1D62-9EBA-403C-A87F-14A31BA24756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
 using System.Threading;
 
 public partial class WebForms_ProfilePage : System.Web.UI.Page
@@ -20,7 +19,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             con = DbConnection.GetSqlConnection();
             con.Open();
-            
+
 
             Label1.Text = "";
       
@@ -54,7 +53,6 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                     if (esteProfesor(username) == false) Button5.Visible = false;
                 }
             }
-
             LoadTraining();
         }
         catch{ }
@@ -72,6 +70,12 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             AppData appData = Session["login"] as AppData;
             username = appData.Utilizator;
+
+            /***/
+            fillTableProfiSelecati();
+            fillTableCursuriNeparticipate();
+            fillTablePerechi();
+            /***/
         }
         else
         {
@@ -168,15 +172,21 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
     
 
 
+    /******/
     public int GetUserId(string Name)
     {
-        SqlCommand cmd = new SqlCommand("select id from useri where Nume = '" + Name + "'", con);
+        SqlConnection coection = DbConnection.GetSqlConnection();
+        SqlCommand cmd = new SqlCommand("select id from useri where Nume = '" + Name + "'", coection);
+        coection.Open();
         SqlDataReader reader = cmd.ExecuteReader();
         reader.Read();
         int id = (int)reader.GetInt32(0);
         reader.Close();
+
+        coection.Close();
         return id;
     }
+    /******/
 
     protected void Button5_Click(object sender, EventArgs e)
     {
@@ -277,4 +287,119 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         return false;
     }
 
+    //*******
+    protected void selectPreferinta_Click(object sender, EventArgs e)
+    {
+        String username = ((AppData)Session["login"]).Utilizator;
+        Response.Redirect("SetareCategorii.aspx?Nume=" + username);
+    }
+
+
+    private void fillTableProfiSelecati()
+    {
+        SqlConnection coection = DbConnection.GetSqlConnection();
+        coection.Open();
+        SqlCommand cmd = new SqlCommand("Select u.Nume,AVG(Nota) From Reviewuri r,Cursuri c,Preferinte p, Useri u Where r.ProfesorId = c.Profesor AND p.Categorie = c.Categorie AND c.Profesor = u.Id And p.IdUser = " + GetUserId(username) + " GROUP BY u.Nume Order BY AVG(Nota) Desc", coection);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        TableRow th = TabelProfCursuriSelectate.Rows[0];
+        TabelProfCursuriSelectate.Rows.Clear();
+        TabelProfCursuriSelectate.Rows.Add(th);
+
+        while (reader.Read())
+        {
+            TableRow row = new TableRow();
+
+            TableCell numeProf = new TableCell();
+            numeProf.Text = reader.GetValue(0).ToString();
+            row.Cells.Add(numeProf);
+
+            TableCell notaCell = new TableCell();
+            notaCell.Text = reader.GetValue(1).ToString();
+            row.Cells.Add(notaCell);
+
+            TabelProfCursuriSelectate.Rows.Add(row);
+        }
+        reader.Close();
+        coection.Close();
+    }
+
+    private void fillTableCursuriNeparticipate()
+    {
+        SqlConnection coection = DbConnection.GetSqlConnection();
+        coection.Open();
+        SqlCommand cmd = new SqlCommand("Select  c.NumeCurs,AVG(Nota),c.Id From Reviewuri r,Cursuri c,Preferinte p Where r.CursId = c.Id AND p.Categorie =c.Categorie And p.IdUser = " + GetUserId(username) + " GROUP BY c.NumeCurs,c.Id Order BY AVG(Nota) Desc", coection);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        TableRow th = TableCursuri.Rows[0];
+        TableCursuri.Rows.Clear();
+        TableCursuri.Rows.Add(th);
+
+        while (reader.Read())
+            if (nuParicipa(reader.GetInt32(2)))
+            {
+            TableRow row = new TableRow();
+
+            TableCell nume = new TableCell();
+            nume.Text = reader.GetValue(0).ToString();
+            row.Cells.Add(nume);
+
+            TableCell notaCell = new TableCell();
+            notaCell.Text = reader.GetValue(1).ToString();
+            row.Cells.Add(notaCell);
+
+            TableCursuri.Rows.Add(row);
+        }
+        reader.Close();
+        coection.Close();
+    }
+
+    private bool nuParicipa(int idCurs)
+    {
+        SqlConnection coection = DbConnection.GetSqlConnection();
+        coection.Open();
+        SqlCommand cmd = new SqlCommand("Select  1 From Participanti p Where p.IdCurs = " + idCurs + " And p.IdUser = " + GetUserId(username), coection);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if (reader.Read())
+        {
+            reader.Close();
+            coection.Close();
+            return false;
+        }
+        reader.Close();
+        coection.Close();
+        return true;
+    }
+
+    private void fillTablePerechi()
+    {
+        SqlConnection coection = DbConnection.GetSqlConnection();
+        coection.Open();
+        SqlCommand cmd = new SqlCommand("Select c.NumeCurs,u.Nume ,c.Id,c.Profesor From Cursuri c, Preferinte p , Useri u Where c.Categorie = p.Categorie AND u.Id = c.Profesor And p.IdUser  = " + GetUserId(username) + " GROUP by c.Id,c.Profesor,c.NumeCurs,u.Nume Order by ((Select ISNULL(AVG(r.Nota),-1) From Reviewuri r Where r.CursId = c.Id)+(Select ISNULL(AVG(r.Nota),-1) From Reviewuri r Where r.CursId = c.Profesor))/2 DESC", coection);
+        SqlDataReader reader = cmd.ExecuteReader();
+
+        TableRow th = TablePerechi.Rows[0];
+        TablePerechi.Rows.Clear();
+        TablePerechi.Rows.Add(th);
+
+        while (reader.Read())
+            if (nuParicipa(reader.GetInt32(2)))
+            {
+            TableRow row = new TableRow();
+
+            TableCell nume = new TableCell();
+            nume.Text = reader.GetValue(0).ToString();
+            row.Cells.Add(nume);
+
+            TableCell notaCell = new TableCell();
+            notaCell.Text = reader.GetValue(1).ToString();
+            row.Cells.Add(notaCell);
+
+            TablePerechi.Rows.Add(row);
+        }
+        reader.Close();
+        coection.Close();
+    }
+
+    //******
 }
