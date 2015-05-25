@@ -34,6 +34,9 @@ public class RecommendationSystem
 
         courses = courseFinder.fillListFromCoursesTable(reader, cmd, sqlConnection1);
 
+        if(numberOfWantedCourses > courses.Count)
+            numberOfWantedCourses = courses.Count;
+
         if(courses.Count == 0) {
             cmd.CommandText = "SELECT *  FROM Cursuri";
         }
@@ -46,7 +49,7 @@ public class RecommendationSystem
         {
             Random rnd = new Random();
             int randomNumber = rnd.Next(0,courses.Count);
-            while(courses[randomNumber] != null) {
+            while(recommendedCourses[randomNumber] != null) {
                 randomNumber = rnd.Next(0,courses.Count);
             }
             recommendedCourses.Add(courses[randomNumber]);

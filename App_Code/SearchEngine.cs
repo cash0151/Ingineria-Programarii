@@ -36,6 +36,9 @@ public class SearchEngine
 
         courses = courseFinder.fillListFromCoursesTable(reader, cmd, sqlConnection1);
 
+        if(numberOfWantedCourses > courses.Count)
+            numberOfWantedCourses = courses.Count;
+
         courses = courseFinder.searchCoursesByNameRetrieveFirstXCourses(name, courses, numberOfWantedCourses);
         return courses;
     }
@@ -54,6 +57,9 @@ public class SearchEngine
         cmd.Connection = sqlConnection1;
 
         courses = courseFinder.fillListFromCoursesTable(reader, cmd, sqlConnection1);
+
+        if (numberOfWantedCourses > courses.Count)
+            numberOfWantedCourses = courses.Count;
 
         courses = courseFinder.searchCoursesByNameRetrieveFirstXCourses(name, courses, numberOfWantedCourses);
         return courses;
