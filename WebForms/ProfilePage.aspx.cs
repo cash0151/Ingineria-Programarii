@@ -122,12 +122,36 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             if (!VerifyNota(GetUserId(username), UserId))
             {
-                LoadRating();
+                if (ApartineProfesorului())
+                {
+                    LoadRating();
+                }
+                else
+                {
+                    TextBox1.Visible = false;
+                    Button4.Visible = false;
+                }
             }
         }
     }
+    public string GetUsername()
+    {
+        AppData app = (AppData)Session["login"];
+        return app.Utilizator;
+    }
 
-
+    public bool ApartineProfesorului()
+    {
+        string Profilname = Request.QueryString["Nume"];
+        int UserId = GetUserId(Profilname);
+        int myId = GetUserId(GetUsername());
+        string SqlText = "select * from participanti p join Cursuri c on p.IdCurs = c.Id and c.Profesor = " + UserId + " and p.Status='ACTIVE' and p.IdUser ="+myId;
+        SqlCommand cmd = new SqlCommand(SqlText,con);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if(reader.Read())
+            return true;
+        return false;         
+    }
 
 
     public void ViewCurs(object sender, EventArgs e)

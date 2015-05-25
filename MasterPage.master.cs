@@ -93,7 +93,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
     }
     protected void Button1_Click2(object sender, EventArgs e)
     {
-        Response.Redirect("/Ingineria-Programarii/WebForms/login.aspx");
+        Response.Redirect("/WebForms/login.aspx");
     }
     protected void Button1_Click3(object sender, EventArgs e)
     {

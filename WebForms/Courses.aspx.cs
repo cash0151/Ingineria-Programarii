@@ -30,6 +30,18 @@ public partial class WebForms_Courses : System.Web.UI.Page
             if (Session["login"] != null)
             {
                 utilizator = ((AppData)Session["login"]).Utilizator;
+                if (EsteInscris(conn))
+                {
+                    if ( !VerifyNota(GetUserId(GetUsername()),GetIdCurs(conn).ToString()))
+                    {
+                        LoadRating();
+                    }
+                }
+                else
+                {
+                    TextBox1.Visible = false;
+                    Button4.Visible = false;
+                }
             }
             else
             {
@@ -96,6 +108,33 @@ public partial class WebForms_Courses : System.Web.UI.Page
         }
     }
 
+    public bool EsteInscris(SqlConnection con)
+    {
+        SqlCommand cmd = new SqlCommand("Select * from participanti where IdUser = " +GetUserId(GetUsername()) + " and IdCurs = " + GetIdCurs(con) +" and Status = 'ACTIVE'", con);
+        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if (reader.Read())
+            return true;
+        return false;            
+    }
+
+    public string GetUsername()
+    {
+        AppData app = (AppData)Session["login"];
+        return app.Utilizator;
+    }
+
+    int GetIdCurs(SqlConnection con)
+    {
+        string NumeCurs = Request.QueryString["Curs"];
+        SqlCommand cmd = new SqlCommand("Select Id from cursuri where NumeCurs = '" + NumeCurs + "'", con);
+        SqlDataReader reader = cmd.ExecuteReader();
+        reader.Read();
+        int id = (int)reader.GetInt32(0);
+        reader.Close();       
+        return id;
+    }
+
     protected void registerToThisCourseAction(object sender, EventArgs e)
     {
         SqlConnection conn = DbConnection.GetSqlConnection();
@@ -154,7 +193,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
     {
         SqlConnection con = DbConnection.GetSqlConnection();
         con.Open();
-        SqlCommand cmd = new SqlCommand("select id from useri where Nume = '" + Name + "'", con);
+        SqlCommand cmd = new SqlCommand("select id from useri where Nume = '" + Name + "'", con); 
         SqlDataReader reader = cmd.ExecuteReader();
         reader.Read();
         int id = (int)reader.GetInt32(0);
@@ -200,8 +239,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
     {
         SqlConnection con = DbConnection.GetSqlConnection();
         con.Open();
-        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and CursId =" + CursId + "and Nota is not NULL", con);
-
+        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + " and CursId =" + CursId + " and Nota is not NULL", con);
+        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         SqlDataReader reader = cmd.ExecuteReader();
         if (reader.Read())
         {
@@ -218,8 +257,9 @@ public partial class WebForms_Courses : System.Web.UI.Page
         int Nota = NrStele.Nota;
         SqlConnection con = DbConnection.GetSqlConnection();
         con.Open();
-        string CursId = Request.QueryString["Curs"];
-        SqlCommand cmd = new SqlCommand("insert into Reviewuri (CursId,Nota,UserId) values(" + CursId+ "," + Nota + "," + GetUserId(username) + ")", con);
+        int CursId = GetIdCurs(con);
+        SqlCommand cmd = new SqlCommand("insert into Reviewuri (CursId,Nota,UserId) values(" + CursId+ "," + Nota + "," + GetUserId(GetUsername()) + ")", con);
+        System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         cmd.ExecuteNonQuery();
         con.Close();
         Response.Redirect(Request.RawUrl);
@@ -229,8 +269,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
     protected void Button4_Click(object sender, EventArgs e)
     {
         SqlConnection con = DbConnection.GetSqlConnection();
-        con.Open();       
-        string CursId = Request.QueryString["Curs"];
+        con.Open();
+        int CursId = GetIdCurs(con);
         SqlCommand cmd = new SqlCommand("insert into Reviewuri (CursId,Text,UserId) values(" + CursId  + ",'" + TextBox1.Text + "'," + GetUserId(username) + ")", con);
         System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         cmd.ExecuteNonQuery();
