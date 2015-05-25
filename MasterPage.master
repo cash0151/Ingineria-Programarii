@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link rel="stylesheet" href="CssFile.css" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 
@@ -15,7 +16,8 @@
     }
     </script>
 </head>
-<body>
+<body >
+    <div class="Fundal">
     <form id="form1" runat="server">
         <ul>
             <li>
@@ -45,7 +47,7 @@
         </p>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
         </asp:ContentPlaceHolder>
-
+        </div>
     </form>
 </body>
 </html>

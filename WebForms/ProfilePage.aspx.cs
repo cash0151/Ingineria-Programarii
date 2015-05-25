@@ -20,7 +20,6 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             con = DbConnection.GetSqlConnection();
             con.Open();
-            
 
             Label1.Text = "";
       
@@ -123,12 +122,36 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         {
             if (!VerifyNota(GetUserId(username), UserId))
             {
-                LoadRating();
+                if (ApartineProfesorului())
+                {
+                    LoadRating();
+                }
+                else
+                {
+                    TextBox1.Visible = false;
+                    Button4.Visible = false;
+                }
             }
         }
     }
+    public string GetUsername()
+    {
+        AppData app = (AppData)Session["login"];
+        return app.Utilizator;
+    }
 
-
+    public bool ApartineProfesorului()
+    {
+        string Profilname = Request.QueryString["Nume"];
+        int UserId = GetUserId(Profilname);
+        int myId = GetUserId(GetUsername());
+        string SqlText = "select * from participanti p join Cursuri c on p.IdCurs = c.Id and c.Profesor = " + UserId + " and p.Status='ACTIVE' and p.IdUser ="+myId;
+        SqlCommand cmd = new SqlCommand(SqlText,con);
+        SqlDataReader reader = cmd.ExecuteReader();
+        if(reader.Read())
+            return true;
+        return false;         
+    }
 
 
     public void ViewCurs(object sender, EventArgs e)
@@ -266,8 +289,8 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
 
     public bool VerifyNota(int UserId,int ProfesorId)
-    {        
-        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId, con);
+    {
+        SqlCommand cmd = new SqlCommand("Select * from Reviewuri where UserId = " + UserId + "and ProfesorId =" + ProfesorId + "and Nota is not NULL", con);
         SqlDataReader reader = cmd.ExecuteReader();
         if (reader.Read())
         {
