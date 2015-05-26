@@ -19,7 +19,7 @@ public class RecommendationSystem
 		//
 	}
 
-    public List<CourseValueObject> recommendCoursesFromCathegory(String cathegoryName, int userId, int numberOfWantedCourses)
+    public List<CourseValueObject> recommendCoursesFromCathegory(int userId, int numberOfWantedCourses)
     {
         List<CourseValueObject> courses = new List<CourseValueObject>();
         DbConnection connection = DbConnection.Instance;
@@ -28,7 +28,9 @@ public class RecommendationSystem
         SqlCommand cmd = new SqlCommand();
         //SqlDataReader reader = new SqlDataReader();
 
-        cmd.CommandText = "SELECT * FROM Preferinte p, Categorii_Cursuri cc, Useri u where u.Id = p.IdUser and cc.Id = p.Categorie";
+        cmd.CommandText = "SELECT * FROM Preferinte p, Categorii_Cursuri cc, Useri u where u.Id = p.IdUser and cc.Id = p.Categorie and u.Id=@id";
+        cmd.Parameters.Add(new SqlParameter("@Id", TypeCode.Int32));
+        cmd.Parameters["@Id"].Value = userId;
         cmd.CommandType = System.Data.CommandType.Text;
         cmd.Connection = sqlConnection1;
 

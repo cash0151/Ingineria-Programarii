@@ -20,7 +20,8 @@
 <body >
     <div class="Fundal">
     <form id="form1" runat="server">
-        <ul>
+          <div class="Meniu">
+        <ul class="inline">
             <li>
                 
                
@@ -37,7 +38,7 @@
 
             <li><a href="/WebForms/home.aspx">Home</a> </li>
         </ul>
-
+            </div>
         <div runat="server" id="notificationsBlock">
             <asp:ScriptManager ID="ScriptManager1" runat="server">
 

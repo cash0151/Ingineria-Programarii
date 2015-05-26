@@ -10,7 +10,7 @@
 
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Categorii_Cursuri]"></asp:SqlDataSource>
                     <asp:Label ID="Label1" runat="server"></asp:Label>
-       <table>
+       <table class="MarginClass2">
             <tr>
                 <td>Nume</td>
                 <td>

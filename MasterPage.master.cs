@@ -11,14 +11,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Init(object sender, EventArgs e)
     {
+        
         LinkButton1.Click += new EventHandler(Button1_Click);
         LinkButton2.Click += new EventHandler(Button1_Click2);
         LinkButton3.Click += new EventHandler(Button1_Click3);
+        LinkButton4.Click += new EventHandler(Button4_Click);
         //daca nu sunt logat sa nu afisez log out si nici butonul de profil
         if (Session["login"] == null)
         {
             LinkButton1.Visible = false;
-            Button4.Visible = false;
+            LinkButton4.Visible = false;
             notificationsBlock.Visible = false;
         }
         else
@@ -41,12 +43,13 @@ public partial class MasterPage : System.Web.UI.MasterPage
         DataSet ds = GetDataSetForMenu();
         MenuItem ButtonMeniu = new MenuItem("Cursuri");
         menu.Items.Add(ButtonMeniu);
+        
         foreach (DataRow parentItem in ds.Tables["Categorii_Cursuri"].Rows)
         {
             MenuItem categoryItem = new MenuItem((string)parentItem["NumeCategorie"]);
             ButtonMeniu.ChildItems.Add(categoryItem);
             categoryItem.NavigateUrl = "WebForms/CoursesCategories.aspx?Categorie=" + (int)parentItem["Id"];
-
+            
         }
         menu.DataBind();
     }

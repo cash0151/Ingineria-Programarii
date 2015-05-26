@@ -3,9 +3,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+
+    <div>
+         Profesorul: <asp:HyperLink  ID="HyperLink1"  runat="server"> </asp:HyperLink>
+        </div>
+    <div class="RecomandariContainer">
+     <div runat="server" class="cursuriAsemanatoare" id="div4">
+           <p>Cursuri asemanatoare</p>
+     </div>
+    
+     <div runat="server" class="cursuriPtUser" id="div5">
+         <p>Cursuri ce v-ar putea interesa</p>
+     </div>
+</div>
+    <div class="MarginClass">
+
     <p><asp:Label ID="titluCurs" runat="server" Text="Label"></asp:Label></p>
     <p>
-        
+       
         Detalii curs:</p>
     <div runat="server" id="divContent1">
          
@@ -66,14 +81,17 @@
          &nbsp;&nbsp;&nbsp;
          <br />
          &nbsp;&nbsp;&nbsp;
-         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px"></asp:TextBox>
+         <asp:TextBox ID="TextBox1" runat="server" Height="133px" TextMode="MultiLine" Width="439px" Visible="False"></asp:TextBox>
          &nbsp;<br /> &nbsp;<br /> &nbsp;&nbsp;&nbsp;
-         <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" />
+         <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" Visible="False" />
          <br />
          &nbsp;&nbsp;&nbsp;&nbsp;
          <br />
+        <p> Revieweuri</p>
+         <asp:Panel ID="Panel1" runat="server">
+        </asp:Panel>
          <br />
     </asp:Panel>
-
+        </div>
 </asp:Content>
 
