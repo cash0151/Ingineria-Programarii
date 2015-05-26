@@ -39,6 +39,8 @@
         }
 
    </script>
+    <div class="MarginClass">
+    <h1 id="h1" class="textCentru" runat="server"></h1>
      <asp:Table ID="TabelCursuri" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Traininguri </asp:TableHeaderCell>                                       
@@ -48,13 +50,31 @@
      <br />
      <br />
 
+    <asp:Table ID="TabelCursuriLaCareSuntInscris" runat="server">
+        <asp:TableHeaderRow BackColor=Aqua>
+            <asp:TableHeaderCell runat="server">Cursuri la care sunt inscris</asp:TableHeaderCell>                                       
+        </asp:TableHeaderRow>
+    </asp:Table>
+
+    <br />
+    <br />
+
+    <asp:Table ID="oameniInscrisiLaCursurileMele" runat="server">
+        <asp:TableHeaderRow BackColor=Aqua>
+            <asp:TableHeaderCell runat="server">Oameni inscrisi la cursurile mele</asp:TableHeaderCell>                                       
+        </asp:TableHeaderRow>
+    </asp:Table>
+
+    <br />
+    <br />
+
      <asp:Panel ID="PanelRating" runat="server">
          &nbsp;&nbsp;&nbsp; &nbsp;Review
          <br />
          &nbsp;&nbsp;&nbsp;
          <br />
          &nbsp;&nbsp;&nbsp;
-         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px"></asp:TextBox>
+         <asp:TextBox ID="TextBox1" runat="server" Height="113px" TextMode="MultiLine" Width="463px"></asp:TextBox>
          &nbsp;<br /> &nbsp;<br /> &nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" />
          <br />
@@ -90,15 +110,20 @@
              </asp:TableHeaderRow>
         </asp:Table>
 
-    <p> Perechile curs profesor la care nu ai participat si care au fost vodate drept clele mai bune de comuitate: </p>
+    <p> Perechile curs profesor la care nu ai participat si care au fost votate drept cele mai bune de comunitate: </p>
      <asp:Table ID="TablePerechi" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Nume Curs </asp:TableHeaderCell>
                     <asp:TableHeaderCell> Nume Profesor </asp:TableHeaderCell>                                        
              </asp:TableHeaderRow>
         </asp:Table>
+
+
+                <p> Revieweuri</p>
+         <asp:Panel ID="Panel1" runat="server">
+        </asp:Panel>
   <!--  <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> -->
     <!-- *********-->
-
+    </div>
 </asp:Content>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="LogIn.aspx.cs" Inherits="WebForms_LogIn" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage2.master" AutoEventWireup="true" CodeFile="LogIn.aspx.cs" Inherits="WebForms_LogIn" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
@@ -10,7 +10,7 @@
 
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT * FROM [Categorii_Cursuri]"></asp:SqlDataSource>
                     <asp:Label ID="Label1" runat="server"></asp:Label>
-       <table>
+       <table class="MarginClass2">
             <tr>
                 <td>Nume</td>
                 <td>

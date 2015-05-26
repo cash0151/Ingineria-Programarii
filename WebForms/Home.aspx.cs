@@ -12,39 +12,45 @@ public partial class WebForms_Home : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        SqlConnection con = DbConnection.GetSqlConnection();
+        con.Open();
+        SqlCommand c;
+        c = new SqlCommand("SELECT NumeCurs,Count(p.id) \"nrParticipanti\" FROM cursuri c,Participanti p WHERE p.idCurs=c.id GROUP BY c.NumeCurs ORDER BY Count(p.id) DESC", con);
+        SqlDataReader r = c.ExecuteReader();
+        TableRow row1 = Clasament.Rows[0];
+        Clasament.Rows.Clear();
+        Clasament.Rows.Add(row1);
+        int nrRezultate = 0;
+        while (r.Read() &&nrRezultate<10)
         {
-            this.LoadMenu();
+            nrRezultate++;
+            TableRow row = new TableRow();
+
+            TableCell cell1 = new TableCell();
+            cell1.Text = nrRezultate + "";
+            row.Cells.Add(cell1);
+
+            TableCell cell2 = new TableCell();
+            LinkButton Curs = new LinkButton();
+            Curs.Text = (string)r["NumeCurs"];
+            Curs.Click += new EventHandler(ViewCurs);
+            cell2.Controls.Add(Curs);
+            row.Cells.Add(cell2);
+
+            TableCell cell3 = new TableCell();
+            cell3.Text = (Int32)r["nrParticipanti"]+"";
+            row.Cells.Add(cell3);
+
+            Clasament.Rows.Add(row);
+            
+   
+           
         }
+        con.Close();
     }
-    private void LoadMenu()
+    public void ViewCurs(object sender, EventArgs e)
     {
-        DataSet ds = GetDataSetForMenu(); 
-        MenuItem ButtonMeniu = new MenuItem("Cursuri");
-        menu.Items.Add(ButtonMeniu);
-        foreach (DataRow parentItem in ds.Tables["Categorii_Cursuri"].Rows)
-        {
-            MenuItem categoryItem = new MenuItem((string)parentItem["NumeCategorie"]);
-            ButtonMeniu.ChildItems.Add(categoryItem);
-            categoryItem.NavigateUrl = "CoursesCategories.aspx?Categorie="+(int)parentItem["Id"];  
-
-        }
-        menu.DataBind();
-    }
-
-    private DataSet GetDataSetForMenu()
-    {
-        SqlConnection myConnection = DbConnection.GetSqlConnection();
-        myConnection.Open();
-        SqlDataAdapter adCat = new SqlDataAdapter("SELECT * FROM Categorii_Cursuri", myConnection);   
-        DataSet ds = new DataSet();
-        adCat.Fill(ds, "Categorii_Cursuri");
-        myConnection.Close();       
-        return ds;
-    }
-
-    protected void HomeButton_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("/WebForms/Home.aspx");
+        LinkButton Curs = (LinkButton)sender;
+        Response.Redirect("Courses.aspx?Curs=" + Curs.Text);
     }
 }

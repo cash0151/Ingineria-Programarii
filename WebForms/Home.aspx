@@ -4,12 +4,19 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
       
-    <br/> <br/>
-    <asp:Panel ID="Panel1" runat="server">
-        <div style="float:left"> <asp:Button ID="HomeButton" runat="server" Text="Home" OnClick="HomeButton_Click" /></div>
-        <div style="float:left"> <asp:Menu ID="menu" runat="server" ></asp:Menu></div>
-    </asp:Panel>
-   
+
+    <div class="MarginClass">
+         <h1  >Cele mai populare Cursuri</h1>
+
+     <asp:Table ID="Clasament" runat="server">
+         <asp:TableHeaderRow BackColor=Aqua>
+                    <asp:TableHeaderCell>Locul </asp:TableHeaderCell>   
+             <asp:TableHeaderCell>Cursul </asp:TableHeaderCell>    
+             <asp:TableHeaderCell>Numarul de participanti </asp:TableHeaderCell>                                                    
+             </asp:TableHeaderRow>
+         </asp:Table>
+        </div>
+   <p id="p1" runat="server"></p>
     
-    </asp:Content>
+</asp:Content>
 

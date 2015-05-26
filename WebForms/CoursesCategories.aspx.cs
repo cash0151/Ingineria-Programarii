@@ -12,27 +12,46 @@ public partial class WebForms_CoursesCategories : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        con = DbConnection.GetSqlConnection();
-        con.Open();
-        SqlDataReader Courses = GetCourses();
-        LoadCourses(Courses);
-        con.Close();
+        if (Request.QueryString["Categorie"] != null)
+        {
+            con = DbConnection.GetSqlConnection();
+            con.Open();
+
+
+           SqlCommand c = new SqlCommand("SELECT numeCategorie FROM Categorii_Cursuri WHERE id=@idul", con);
+            c.Parameters.Add(new SqlParameter("@idul", TypeCode.Int32));
+            c.Parameters["@idul"].Value = Int32.Parse(Request.QueryString["Categorie"]);
+
+            Object o = c.ExecuteScalar();
+            String nume = (String)o;
+            if (nume == null)
+            {
+                Response.Redirect("Home.aspx");
+                return;
+            }
+            h1.InnerText = nume;
+
+            SqlDataReader Courses = GetCourses();
+            LoadCourses(Courses);
+            con.Close();
+        }
+        else Response.Redirect("Home.aspx");
     }
 
     public void LoadCourses(SqlDataReader reader)
     {
-        ContentPlaceHolder cph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder2");        
-        
+
         while (reader.Read())
         {
             LinkButton Curs = new LinkButton();
             Curs.Text = (string)reader["NumeCurs"];
+            Curs.CssClass = "ElementeCategorie";
             Curs.Click += new EventHandler(CourseClick);
-            cph.Controls.Add(Curs);
+            Panel1.Controls.Add(Curs);
 
             Literal br = new Literal();
             br.Text = " <br/> ";
-            cph.Controls.Add(br); 
+            Panel1.Controls.Add(br); 
         }
     }
 

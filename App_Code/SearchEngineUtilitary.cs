@@ -79,8 +79,8 @@ public class SearchEngineUtilitary
     public List<CourseValueObject> sortListWithXElements(List<CourseValueObject> unsortedCourses, int numberOfWantedCourses) 
     {
         List<CourseValueObject> sortedCourses = unsortedCourses;
-        sortedCourses.Sort();
-        sortedCourses.Reverse();
+       sortedCourses.Sort();
+        //sortedCourses.Reverse();
         List<CourseValueObject> courses = new List<CourseValueObject>();
 
         for (int index = 0; index < numberOfWantedCourses; index++)
