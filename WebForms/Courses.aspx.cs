@@ -139,7 +139,15 @@ public partial class WebForms_Courses : System.Web.UI.Page
 
                 c = new SqlCommand("SELECT ", conn);
                 */
+
+                //recomandari dinamice in functie de ce cursuri este inscris utilizatorul curent.Ia categoria cu cele mai multe cursuri in care
+                //este inscris userul curent si din acea categorie ofera primele primele 2 in functie de review si in care nu este inscris userul
+                //Daca nu gaseste nici un curs incearca in categoria de pe locul 2. si tot asa pana gaseste 2 cursuri.
                 creazaRecomandariDinIstoric(idUser);
+
+                //recomandari statice in functie de cursul pe care il vizioneaza utilizatorul.
+                creazaRecomandariStatice(Request.QueryString["Curs"],idUser);
+
                 //aici se incheie recomandarile
 
 
@@ -440,6 +448,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
               categoriiPreferate.Add((Int32)r["idul"]);
           }
         int nrRezultate = 0;
+       // div5.InnerHtml = "";
         for (int i = 0; i < categoriiPreferate.Count; i++)
         {
             c = new SqlCommand("SELECT cu.numeCurs FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE  cu.Categorie=@idCategorie   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
@@ -452,12 +461,36 @@ public partial class WebForms_Courses : System.Web.UI.Page
           while (r.Read() && nrRezultate<2)
           {
               nrRezultate++;
-              div4.InnerHtml += (String)r["numeCurs"]+"<br/> ";
+              div5.InnerHtml += (String)r["numeCurs"]+"<br/> ";
            
           }
           if (nrRezultate >= 2) break;
         }
+        if (nrRezultate == 0) div5.InnerHtml = "";
             con.Close();
         
-    } 
+    }
+    public void creazaRecomandariStatice(String curs,int idUser)
+    {
+        SqlConnection con = DbConnection.GetSqlConnection();
+        con.Open();
+        SqlCommand c;
+
+        c = new SqlCommand("SELECT cu.numeCurs FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE cu.numeCurs<>@numeCurs AND cu.Categorie=(SELECT Categorie FROM cursuri WHERE numeCurs=@numeCurs)   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
+        c.Parameters.Add(new SqlParameter("@idUserCurent", TypeCode.Int32));
+        c.Parameters["@idUserCurent"].Value = idUser;
+        c.Parameters.Add(new SqlParameter("@numeCurs", TypeCode.String));
+        c.Parameters["@numeCurs"].Value = curs;
+        SqlDataReader r = c.ExecuteReader();
+        int nrRezultate = 0;
+       // div4.InnerHtml = "";
+        while (r.Read() && nrRezultate < 2)
+        {
+            nrRezultate++;
+            div4.InnerHtml += (String)r["numeCurs"] + "<br/> ";
+
+        }
+        if (nrRezultate == 0) div4.InnerHtml = "";
+        con.Close();
+    }
 }

@@ -60,7 +60,7 @@ CREATE TABLE [dbo].[Participanti] (
 
 
 
-INSERT INTO revieweuri(CursID,Nota,UserId) VALUES(11,5,1);
+
 
 
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('a','a','normal');
@@ -138,8 +138,8 @@ INSERT INTO [dbo].[Cursuri] (  [NumeCurs], [Profesor], [Categorie], [Continut], 
 
 
 
-
-
+INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(11,5,1);
+INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(36,3,1);
 
 
 
