@@ -23,10 +23,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
             SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
 
-
-          
-
-
             SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program,(SELECT nume FROM useri WHERE id=Profesor) \"prof\"  FROM cursuri  WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
             c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
             c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
@@ -168,6 +164,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 //recomandari statice in functie de cursul pe care il vizioneaza utilizatorul.
                 creazaRecomandariStatice(Request.QueryString["Curs"],idUser);
 
+                //recomandari dinamice in functie de cursul in care te afli
                 //aici se incheie recomandarile
 
 
