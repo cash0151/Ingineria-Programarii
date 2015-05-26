@@ -100,15 +100,17 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 utilizator = ((AppData)Session["login"]).Utilizator;
                 if (EsteInscris(conn))
                 {
+                    TextBox1.Visible = true;
+                    Button4.Visible = true;
                     if ( !VerifyNota(GetUserId(GetUsername()),GetIdCurs(conn).ToString()))
                     {
                         LoadRating();
                     }
+
                 }
                 else
                 {
-                    TextBox1.Visible = false;
-                    Button4.Visible = false;
+                    
                 }
             }
             else

@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+
     <div>
          Profesorul: <asp:HyperLink  ID="HyperLink1"  runat="server"> </asp:HyperLink>
         </div>
@@ -14,6 +15,9 @@
          <p>Cursuri ce v-ar putea interesa</p>
      </div>
     ====
+
+    <div class="MarginClass">
+
     <p><asp:Label ID="titluCurs" runat="server" Text="Label"></asp:Label></p>
     <p>
        
@@ -77,14 +81,14 @@
          &nbsp;&nbsp;&nbsp;
          <br />
          &nbsp;&nbsp;&nbsp;
-         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px"></asp:TextBox>
+         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px" Visible="False"></asp:TextBox>
          &nbsp;<br /> &nbsp;<br /> &nbsp;&nbsp;&nbsp;
-         <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" />
+         <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" Visible="False" />
          <br />
          &nbsp;&nbsp;&nbsp;&nbsp;
          <br />
          <br />
     </asp:Panel>
-
+        </div>
 </asp:Content>
 

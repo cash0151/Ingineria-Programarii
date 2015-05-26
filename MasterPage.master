@@ -19,9 +19,9 @@
 <body >
     <div class="Fundal">
     <form id="form1" runat="server">
+        <div class="Meniu">
         <ul>
-            <li>
-                
+            <li>               
                
                <asp:LinkButton ID="LinkButton1" runat="server">Logout</asp:LinkButton>
             </li>
@@ -36,8 +36,9 @@
 
             <li><a href="/WebForms/home.aspx">Home</a> </li>
         </ul>
-
-        <div runat="server" id="notificationsBlock">
+           
+        </div>
+        <div runat="server" id="notificationsBlock" class="MarginClass">
             <asp:ScriptManager ID="ScriptManager1" runat="server">
 
             </asp:ScriptManager>
@@ -49,7 +50,7 @@
             </asp:UpdatePanel>
         </div>
 
-        <p>
+        <p class="MarginClass">
             <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Profil" Width="44px" />
         </p>
 
