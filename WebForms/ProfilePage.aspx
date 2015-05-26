@@ -40,7 +40,7 @@
 
    </script>
     <div class="MarginClass">
-    <h1 id="h1" class="textCentru" runat="server"></h1>
+    <h1 id="h1" runat="server"></h1>
      <asp:Table ID="TabelCursuri" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Traininguri </asp:TableHeaderCell>                                       
@@ -89,7 +89,7 @@
 
 
     <!-- *********-->
-
+    <div id="divPreferinte" runat="server">
     <p>
         <asp:Button ID="selectPreferinta" runat="server" Text="Setare Categorii Preferinte" OnClick="selectPreferinta_Click" Width="224px" />
     </p>
@@ -118,12 +118,13 @@
              </asp:TableHeaderRow>
         </asp:Table>
 
-
+        </div>
+            <!-- *********-->
                 <p> Revieweuri</p>
          <asp:Panel ID="Panel1" runat="server">
         </asp:Panel>
   <!--  <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> -->
-    <!-- *********-->
+
     </div>
 </asp:Content>
 
