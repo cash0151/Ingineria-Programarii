@@ -97,7 +97,7 @@ public partial class WebForms_SetareCategorii : System.Web.UI.Page
         SqlDataReader reader = cmd.ExecuteReader();
         if (reader.Read())
         {
-            Label1.Text = "aici";
+     
             tempCon.Close();
             return false;
         }

@@ -88,7 +88,8 @@ INSERT INTO Useri(Nume,Parola,Tip) VALUES('Ana','a','normal');
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Andrei','a','normal');
 --11
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Mihai','a','normal');
-
+--11
+INSERT INTO Useri(Nume,Parola,Tip) VALUES('Marius','a','normal');
 
 
 --INSERT INTO Categorii_Cursuri VALUES('');
@@ -195,12 +196,15 @@ INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(11,3,'ACTIVE','SEEN'
 
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(3,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(4,1,'ACTIVE','SEEN');
-INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(5,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(6,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(7,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(8,1,'ACTIVE','SEEN');
 
-
---MIHAI arat pentru ca este inscris la 2 cursuri dintr-o categorie ii ofer de acolo recomandari si
---dupa ma inscriu la 3 cursuri din alta categorie
+--
+--Ana corin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,9,'ACTIVE','SEEN');
+--Andrei corin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,10,'ACTIVE','SEEN');
+--Mihai corin participa la curspul de Dezvoltare
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,11,'ACTIVE','SEEN');
+
