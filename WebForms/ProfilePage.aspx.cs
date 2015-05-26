@@ -26,6 +26,8 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             if (Session["login"] == null)
             {
                 Button5.Visible = false;
+                TabelCursuriLaCareSuntInscris.Visible = false;
+                oameniInscrisiLaCursurileMele.Visible = false;
             }
             else
             {
@@ -38,7 +40,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                     return;
                 }
 
-                 //doar daca userul curent este profilul lui si este profesor 
+                //doar daca userul curent este profilul lui si este profesor 
                 //arat butonul de creare de trainguri.
                 //prima data verific daca userul curent este pe profilul lui
                 if (!Request.QueryString["Nume"].Equals(username))
@@ -48,20 +50,23 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 else
                 {
                     //daca nu este profesor nu afisez butonul de adaugat traininguri
-
                     if (esteProfesor(username) == false)
                     {
                         Button5.Visible = false;
+                        TabelCursuriLaCareSuntInscris.Visible = true;
+                        oameniInscrisiLaCursurileMele.Visible = false;
+                        LoadCursuriLaCareSuntInscris();
                     }
                     else
                     {
-                        ;
+                        TabelCursuriLaCareSuntInscris.Visible = true;
+                        oameniInscrisiLaCursurileMele.Visible = true;
+                        LoadCursuriLaCareSuntInscris();
+                        LoadPeopleEnrolledToMyCourses();
                     }
                 }
             }
             LoadTraining();
-            LoadCursuriLaCareSuntInscris();
-            LoadPeopleEnrolledToMyCourses();
         }
         catch{ }
         finally
@@ -154,9 +159,6 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
         int UserId = GetUserId(Profilname);
         bool OtherProfil = IsOtherProfil();
 
-        con = DbConnection.GetSqlConnection();
-        con.Open();
-
         SqlCommand c;
         SqlDataReader r;
         string numeCurs = null;
@@ -168,46 +170,54 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             c.Parameters["@idUser"].Value = UserId;
             r = c.ExecuteReader();
 
-            while (r.Read())
+            if (r.HasRows)
             {
-                numeCurs = getCourseNameById(r["idCurs"].ToString());
+                while (r.Read())
+                {
+                    numeCurs = getCourseNameById(r["idCurs"].ToString());
 
+                    TableRow row = new TableRow();
+
+                    TableCell TrainingCell = new TableCell();
+                    LinkButton Curs = new LinkButton();
+                    Curs.Text = numeCurs;
+                    Curs.Click += new EventHandler(ViewCurs);
+                    TrainingCell.Controls.Add(Curs);
+                    row.Cells.Add(TrainingCell);
+
+                    TableCell DeleteTrainingCell = new TableCell();
+                    ButtonTraining Delete = new ButtonTraining();
+                    if (r["Status"].ToString() == "ACTIVE")
+                    {
+                        Delete.Text = "Sterge-ma de la acest curs";
+                    }
+                    else
+                    {
+                        Delete.Text = "Cerere trimisa. Anuleaza cererea";
+                    }
+                    Delete.Training = r["IdCurs"] + "*" + UserId.ToString();
+                    Delete.Click += new EventHandler(deleteMeFromThisCourse);
+                    DeleteTrainingCell.Controls.Add(Delete);
+                    row.Cells.Add(DeleteTrainingCell);
+
+                    TabelCursuriLaCareSuntInscris.Rows.Add(row);
+                }
+            }
+            else
+            {
                 TableRow row = new TableRow();
 
-                TableCell TrainingCell = new TableCell();
-                LinkButton Curs = new LinkButton();
-                Curs.Text = numeCurs;
-                Curs.Click += new EventHandler(ViewCurs);
-                TrainingCell.Controls.Add(Curs);
-                row.Cells.Add(TrainingCell);
-
-                TableCell DeleteTrainingCell = new TableCell();
-                ButtonTraining Delete = new ButtonTraining();
-                if (r["Status"].ToString() == "ACTIVE")
-                {
-                    Delete.Text = "Sterge-ma de la acest curs";
-                }
-                else
-                {
-                    Delete.Text = "Cerere trimisa. Anuleaza cererea";
-                }
-                Delete.Training = r["IdCurs"] + "*" + UserId.ToString();
-                Delete.Click += new EventHandler(deleteMeFromThisCourse);
-                DeleteTrainingCell.Controls.Add(Delete);
-                row.Cells.Add(DeleteTrainingCell);
+                TableCell notRegisteredToAnyCourse = new TableCell();
+                notRegisteredToAnyCourse.Text = "Nu sunteti inregistrat la nici un curs!";
+                row.Cells.Add(notRegisteredToAnyCourse);
 
                 TabelCursuriLaCareSuntInscris.Rows.Add(row);
             }
         }
-
-        con.Close();
     }
 
     public void LoadPeopleEnrolledToMyCourses()
     {
-        con = DbConnection.GetSqlConnection();
-        con.Open();
-
         string Profilname = Request["Nume"];
         int UserId = GetUserId(Profilname);
         bool isTeacher = esteProfesor(Profilname);
@@ -251,34 +261,45 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
             oameniInscrisiLaCursurileMele.Rows.Add(headerRow);
 
-            while (r.Read())
+            if (r.HasRows)
+            {
+                while (r.Read())
+                {
+                    TableRow row = new TableRow();
+
+                    TableCell TrainingCell = new TableCell();
+                    LinkButton Curs = new LinkButton();
+                    Curs.Text = getCourseNameById(r["IdCurs"].ToString());
+                    Curs.Click += new EventHandler(ViewCurs);
+                    TrainingCell.Controls.Add(Curs);
+                    row.Cells.Add(TrainingCell);
+
+                    TableCell UserCell = new TableCell();
+                    UserCell.Text = getUsernameById(r["IdUser"].ToString());
+                    row.Cells.Add(UserCell);
+
+                    TableCell DeleteCell = new TableCell();
+                    ButtonTraining Delete = new ButtonTraining();
+                    Delete.Text = "Sterge";
+                    Delete.Training = "/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + r["IdUser"].ToString() + "&idCurs=" + r["idCurs"];
+                    Delete.Click += new EventHandler(goToDeletePage);
+                    DeleteCell.Controls.Add(Delete);
+                    row.Cells.Add(DeleteCell);
+
+                    oameniInscrisiLaCursurileMele.Rows.Add(row);
+                }
+            }
+            else
             {
                 TableRow row = new TableRow();
 
-                TableCell TrainingCell = new TableCell();
-                LinkButton Curs = new LinkButton();
-                Curs.Text = getCourseNameById(r["IdCurs"].ToString());
-                Curs.Click += new EventHandler(ViewCurs);
-                TrainingCell.Controls.Add(Curs);
-                row.Cells.Add(TrainingCell);
-
-                TableCell UserCell = new TableCell();
-                UserCell.Text = getUsernameById(r["IdUser"].ToString());
-                row.Cells.Add(UserCell);
-
-                TableCell DeleteCell = new TableCell();
-                ButtonTraining Delete = new ButtonTraining();
-                Delete.Text = "Sterge";
-                Delete.Training = "/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + r["IdUser"].ToString() + "&idCurs=" + r["idCurs"];
-                Delete.Click += new EventHandler(goToDeletePage);
-                DeleteCell.Controls.Add(Delete);
-                row.Cells.Add(DeleteCell);
+                TableCell notRegisteredToAnyCourse = new TableCell();
+                notRegisteredToAnyCourse.Text = "Nu aveti nici o persoana inregistrata la vreun curs!";
+                row.Cells.Add(notRegisteredToAnyCourse);
 
                 oameniInscrisiLaCursurileMele.Rows.Add(row);
             }
         }
-
-        con.Close();
     }
 
     public void deleteMeFromThisCourse(object sender, EventArgs e)
