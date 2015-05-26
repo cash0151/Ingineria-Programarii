@@ -15,11 +15,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
         LinkButton1.Click += new EventHandler(Button1_Click);
         LinkButton2.Click += new EventHandler(Button1_Click2);
         LinkButton3.Click += new EventHandler(Button1_Click3);
+        LinkButton4.Click += new EventHandler(Button4_Click);
         //daca nu sunt logat sa nu afisez log out si nici butonul de profil
         if (Session["login"] == null)
         {
             LinkButton1.Visible = false;
-            Button4.Visible = false;
+            LinkButton4.Visible = false;
             notificationsBlock.Visible = false;
         }
         else
