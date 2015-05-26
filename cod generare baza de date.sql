@@ -66,15 +66,31 @@ CREATE TABLE [dbo].[Participanti] (
 
 
 
-
+--1
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Zotica Corin','a','normal');
+--2
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Racovita Calin','a','normal');
+--3
 INSERT INTO Useri(Nume,Parola,Tip)  VALUES('Ilici Alin','a','normal');
+--4
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Mocioi Andrei','a','normal');
+--5
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Ciobanu Marius-Catalin','a','profesor');
+--6
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Danila Alina','a','profesor');
+--7
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Claudia Bianca','a','profesor');
+--8
 INSERT INTO Useri(Nume,Parola,Tip) VALUES('Petre Ion','a','profesor');
+--9
+INSERT INTO Useri(Nume,Parola,Tip) VALUES('Ana','a','normal');
+--10
+INSERT INTO Useri(Nume,Parola,Tip) VALUES('Andrei','a','normal');
+--11
+INSERT INTO Useri(Nume,Parola,Tip) VALUES('Mihai','a','normal');
+
+
+
 --INSERT INTO Categorii_Cursuri VALUES('');
 INSERT INTO Categorii_Cursuri VALUES('Dezvoltare Web');
 INSERT INTO Categorii_Cursuri VALUES('Algoritmi');
@@ -140,12 +156,51 @@ INSERT INTO [dbo].[Cursuri] (  [NumeCurs], [Profesor], [Categorie], [Continut], 
 
 
 
-
-INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(11,5,1);
-INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(36,3,1);
-
+--Dezvoltarea aplicatiilor web nota 3 de Zotica Corin
+INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(2,3,1);
 
 
+--Tehnici Web web nota 2 de Zotica Corin
+INSERT INTO reviewuri(CursID,Nota,UserId) VALUES(11,2,1);
+
+--review pt profesor Ciobanu Marius-Catalin
+INSERT INTO reviewuri(ProfesorId,Nota,UserId) VALUES(5,3,1);
+
+--reviewueri text
+INSERT INTO reviewuri(CursID,Text,UserId) VALUES(2,'Frumos Curs',1);
+INSERT INTO reviewuri(CursID,Text,UserId) VALUES(2,'Mia placut',2);
 
 
+INSERT INTO reviewuri(CursID,Text,UserId) VALUES(11,'Frumos Curs',1);
+INSERT INTO reviewuri(CursID,Text,UserId) VALUES(11,'Mia placut',2);
 
+--intrare in cursuri
+--Zotica corin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,1,'ACTIVE','SEEN');
+
+--Zotica corin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(11,1,'ACTIVE','SEEN');
+
+--Racovita Calin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,2,'ACTIVE','SEEN');
+
+--Racovita Calin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(11,2,'ACTIVE','SEEN');
+
+--Ilici Alin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,3,'ACTIVE','SEEN');
+
+--Ilici Alin participa la curspul de Dezvoltare
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(11,3,'ACTIVE','SEEN');
+
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(3,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(4,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(5,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(6,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(7,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(8,1,'ACTIVE','SEEN');
+
+
+--MIHAI arat pentru ca este inscris la 2 cursuri dintr-o categorie ii ofer de acolo recomandari si
+--dupa ma inscriu la 3 cursuri din alta categorie
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,11,'ACTIVE','SEEN');

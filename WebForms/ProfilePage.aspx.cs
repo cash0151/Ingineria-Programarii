@@ -27,6 +27,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             if (Session["login"] == null)
 
             {
+                divPreferinte.Visible = false;
                 selectPreferinta.Visible = false;
                 Button5.Visible = false;
                 TabelCursuriLaCareSuntInscris.Visible = false;

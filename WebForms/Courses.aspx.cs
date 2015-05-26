@@ -216,7 +216,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
             r = c.ExecuteReader();
             if (r.HasRows)
             {
-                registeredUsers.Visible = true;
+                //registeredUsers.Visible = true;
+                registeredUsers.Visible = false;
 
                 while (r.Read())
                 {
@@ -489,7 +490,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
        // div5.InnerHtml = "";
         for (int i = 0; i < categoriiPreferate.Count; i++)
         {
-            c = new SqlCommand("SELECT cu.numeCurs FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE  cu.Categorie=@idCategorie   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
+            c = new SqlCommand("SELECT cu.numeCurs,AVG(nota) \"nota\" FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE  cu.Categorie=@idCategorie   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
           c.Parameters.Add(new SqlParameter("@idUserCurent", TypeCode.Int32));
           c.Parameters["@idUserCurent"].Value = idUser;
           c.Parameters.Add(new SqlParameter("@idCategorie ", TypeCode.Int32));
@@ -499,7 +500,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
           while (r.Read() && nrRezultate<4)
           {
               nrRezultate++;
-              div5.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a><br/>";
+              div5.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a>Nota:" + r["nota"] + "<br/>";
            
           }
           if (nrRezultate >= 4) break;
@@ -514,7 +515,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
         con.Open();
         SqlCommand c;
 
-        c = new SqlCommand("SELECT cu.numeCurs FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE cu.numeCurs<>@numeCurs AND cu.Categorie=(SELECT Categorie FROM cursuri WHERE numeCurs=@numeCurs)   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
+        c = new SqlCommand("SELECT cu.numeCurs,AVG(nota) \"nota\" FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE cu.numeCurs<>@numeCurs AND cu.Categorie=(SELECT Categorie FROM cursuri WHERE numeCurs=@numeCurs)   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
         c.Parameters.Add(new SqlParameter("@idUserCurent", TypeCode.Int32));
         c.Parameters["@idUserCurent"].Value = idUser;
         c.Parameters.Add(new SqlParameter("@numeCurs", TypeCode.String));
@@ -525,8 +526,9 @@ public partial class WebForms_Courses : System.Web.UI.Page
         while (r.Read() && nrRezultate < 4)
         {
             nrRezultate++;
-            div4.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a><br/>";
+          
 
+             div4.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a> Nota:" + r["nota"] + "<br/>";
         }
         if (nrRezultate == 0) div4.InnerHtml = "";
         con.Close();
