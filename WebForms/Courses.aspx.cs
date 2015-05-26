@@ -9,11 +9,11 @@ using System.Web.UI.WebControls;
 
 public partial class WebForms_Courses : System.Web.UI.Page
 {
-    string username;
+    String utilizator;
 
     protected void Page_Init(object sender, EventArgs e)
     {
-
+ 
         Object o;
         SqlDataReader r = null;
 
@@ -50,6 +50,21 @@ public partial class WebForms_Courses : System.Web.UI.Page
             }
             //Scriu ce titlu are cursul
             titluCurs.Text = Request.QueryString["Curs"];
+
+            //afisez revieweurile cursului
+            c = new SqlCommand("SELECT (SELECT u.nume FROM useri u WHERE u.id=r.UserId) \"nume\",r.text FROM reviewuri r WHERE CursId=(SELECT id FROM cursuri WHERE numeCurs=@NumeCurs) AND r.Text IS NOT NULL", conn);
+            c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
+            c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
+            r = c.ExecuteReader();
+            while (r.Read())
+            {
+                HtmlGenericControl divcontrol = new HtmlGenericControl();
+                divcontrol.Attributes["class"] = "reviewCurs";
+                divcontrol.TagName = "div";
+                divcontrol.InnerHtml = (String)r["nume"] + 
+                    "<br/>" + (String)r["text"];
+                Panel1.Controls.Add(divcontrol);
+            }
 
             //String utilizator;
             //if (Session["login"] != null)
@@ -94,7 +109,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
             //    deleteFromThisCourse.Visible = false;
             //}
 
-            String utilizator;
+            
             if (Session["login"] != null)
             {
                 utilizator = ((AppData)Session["login"]).Utilizator;
@@ -432,7 +447,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
         SqlConnection con = DbConnection.GetSqlConnection();
         con.Open();
         int CursId = GetIdCurs(con);
-        SqlCommand cmd = new SqlCommand("insert into Reviewuri (CursId,Text,UserId) values(" + CursId  + ",'" + TextBox1.Text + "'," + GetUserId(username) + ")", con);
+        SqlCommand cmd = new SqlCommand("insert into Reviewuri (CursId,Text,UserId) values(" + CursId  + ",'" + TextBox1.Text + "'," + GetUserId(utilizator) + ")", con);
         System.Diagnostics.Debug.WriteLine(cmd.CommandText);
         cmd.ExecuteNonQuery();
         con.Close();

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Threading;
+using System.Web.UI.HtmlControls;
 
 public partial class WebForms_ProfilePage : System.Web.UI.Page
 {   
@@ -55,6 +56,25 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 }
                 
             }
+
+            //afisez revieweurile cursului
+            SqlCommand c;
+            SqlDataReader r;
+            c = new SqlCommand("SELECT (SELECT u.nume FROM useri u WHERE u.id=r.UserId) \"nume\",r.text FROM reviewuri r WHERE ProfesorId=(SELECT id FROM useri WHERE Nume=@Nume) AND r.Text IS NOT NULL", con);
+            c.Parameters.Add(new SqlParameter("Nume", TypeCode.String));
+            c.Parameters["Nume"].Value = Request.QueryString["Nume"];
+            r = c.ExecuteReader();
+            while (r.Read())
+            {
+                HtmlGenericControl divcontrol = new HtmlGenericControl();
+                divcontrol.Attributes["class"] = "reviewCurs";
+                divcontrol.TagName = "div";
+                divcontrol.InnerHtml = (String)r["nume"] +
+                    "<br/>" + (String)r["text"];
+                Panel1.Controls.Add(divcontrol);
+            }
+
+
             LoadTraining();
         }
         catch{ }

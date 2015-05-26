@@ -94,3 +94,7 @@ ul{
           padding:5px;
           margin:5px;
   }
+  .reviewCurs{
+      padding:10px;
+      border-bottom:1px solid black;
+  }

@@ -99,6 +99,11 @@
                     <asp:TableHeaderCell> Nume Profesor </asp:TableHeaderCell>                                        
              </asp:TableHeaderRow>
         </asp:Table>
+
+
+                <p> Revieweuri</p>
+         <asp:Panel ID="Panel1" runat="server">
+        </asp:Panel>
   <!--  <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> -->
     <!-- *********-->
     </div>

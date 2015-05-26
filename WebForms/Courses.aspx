@@ -87,6 +87,9 @@
          <br />
          &nbsp;&nbsp;&nbsp;&nbsp;
          <br />
+        <p> Revieweuri</p>
+         <asp:Panel ID="Panel1" runat="server">
+        </asp:Panel>
          <br />
     </asp:Panel>
         </div>
