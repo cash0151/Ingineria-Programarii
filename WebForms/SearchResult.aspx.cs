@@ -12,7 +12,9 @@ public partial class WebForms_SearchResult : System.Web.UI.Page
     {
         if (Request.QueryString["query"] != null)
         {
+
             SearchEngine se = new SearchEngine();
+
             SqlConnection con = DbConnection.GetSqlConnection();
             con.Open();
 
@@ -31,6 +33,7 @@ public partial class WebForms_SearchResult : System.Web.UI.Page
               //  divContent1.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["NumeCurs"] + "\">" + (String)r["NumeCurs"] + "</a></br>";
             //}
             con.Close();
+			
         }
 
         else

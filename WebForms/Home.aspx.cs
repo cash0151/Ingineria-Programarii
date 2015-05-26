@@ -51,6 +51,6 @@ public partial class WebForms_Home : System.Web.UI.Page
     public void ViewCurs(object sender, EventArgs e)
     {
         LinkButton Curs = (LinkButton)sender;
-        Response.Redirect("Courses.aspx?Curs=" + Curs.Text);
+        Response.Redirect("/WebForms/Courses.aspx?Curs=" + Curs.Text);
     }
 }

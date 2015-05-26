@@ -69,7 +69,7 @@ public class SearchEngineUtilitary
     public List<CourseValueObject> searchCoursesByNameRetrieveFirstXCourses(String name, List<CourseValueObject> courses, int numberOfWantedCourses)
     {
         foreach(CourseValueObject course in courses) {
-            course.lewensteinFactor = computeLevenshteinDistance(name, course.getCourseName());
+            course.lewensteinFactor = computeLevenshteinDistance(name.ToLower(), course.getCourseName().ToLower());
         }
 
         List<CourseValueObject> sortedCourses = sortListWithXElements(courses, numberOfWantedCourses);

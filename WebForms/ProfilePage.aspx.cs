@@ -11,8 +11,8 @@ using System.Web.UI.HtmlControls;
 public partial class WebForms_ProfilePage : System.Web.UI.Page
 {   
     SqlConnection con ;
-    string username;    
-
+    string username;
+    SqlCommand c;
     protected void Page_Init(object sender, EventArgs e)
     {
         LoadSesssion();
@@ -27,6 +27,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             if (Session["login"] == null)
 
             {
+                divPreferinte.Visible = false;
                 selectPreferinta.Visible = false;
                 Button5.Visible = false;
                 TabelCursuriLaCareSuntInscris.Visible = false;
@@ -40,8 +41,24 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 {
                     Label1.Text = "Queryul nu este valid";
                     Button5.Visible = false;
-                    return;
+                    con.Close();
+                    Response.Redirect("Home.aspx");
                 }
+                //verific daca exista profilul in baza de date
+                c = new SqlCommand("SELECT '1' FROM useri WHERE nume=@nume", con);
+                c.Parameters.Add(new SqlParameter("@nume", TypeCode.String));
+                c.Parameters["@nume"].Value = Request.QueryString["Nume"];
+                Object o = c.ExecuteScalar();
+                if (o == null)
+                {
+                    con.Close();
+                    Response.Redirect("Home.aspx");
+                }
+           
+
+
+                //pun numele
+                h1.InnerHtml = Request.QueryString["Nume"];
 
                 //doar daca userul curent este profilul lui si este profesor 
                 //arat butonul de creare de trainguri.
@@ -49,8 +66,12 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 if (!Request.QueryString["Nume"].Equals(username))
                 {
                     Button5.Visible = false;
+
+                    divPreferinte.Visible = false;
+
                     TabelCursuriLaCareSuntInscris.Visible = false;
                     oameniInscrisiLaCursurileMele.Visible = false;
+
                 }
                 else
                 {
@@ -74,7 +95,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
             }
 
             //afisez revieweurile cursului
-            SqlCommand c;
+         
             SqlDataReader r;
             c = new SqlCommand("SELECT (SELECT u.nume FROM useri u WHERE u.id=r.UserId) \"nume\",r.text FROM reviewuri r WHERE ProfesorId=(SELECT id FROM useri WHERE Nume=@Nume) AND r.Text IS NOT NULL", con);
             c.Parameters.Add(new SqlParameter("Nume", TypeCode.String));
@@ -92,6 +113,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
 
             LoadTraining();
+        
         }
         catch{ }
         finally
