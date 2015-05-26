@@ -116,6 +116,9 @@ public partial class WebForms_Courses : System.Web.UI.Page
             else
             {
                 utilizator = null;
+                //ascund recomandarile daca nu e logat
+                div4.InnerHtml = "";
+                div5.InnerHtml = "";
             }
 
             if (utilizator != null)
@@ -460,13 +463,13 @@ public partial class WebForms_Courses : System.Web.UI.Page
           c.Parameters["@idCategorie "].Value = categoriiPreferate[i];
           r = c.ExecuteReader();
           
-          while (r.Read() && nrRezultate<2)
+          while (r.Read() && nrRezultate<4)
           {
               nrRezultate++;
-              div5.InnerHtml += (String)r["numeCurs"]+"<br/> ";
+              div5.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a><br/>";
            
           }
-          if (nrRezultate >= 2) break;
+          if (nrRezultate >= 4) break;
         }
         if (nrRezultate == 0) div5.InnerHtml = "";
             con.Close();
@@ -486,10 +489,10 @@ public partial class WebForms_Courses : System.Web.UI.Page
         SqlDataReader r = c.ExecuteReader();
         int nrRezultate = 0;
        // div4.InnerHtml = "";
-        while (r.Read() && nrRezultate < 2)
+        while (r.Read() && nrRezultate < 4)
         {
             nrRezultate++;
-            div4.InnerHtml += (String)r["numeCurs"] + "<br/> ";
+            div4.InnerHtml += "<a class=\"ElementeCategorie\" href=\"Courses.aspx?Curs=" + (String)r["numeCurs"] + "\">" + (String)r["numeCurs"] + "</a><br/>";
 
         }
         if (nrRezultate == 0) div4.InnerHtml = "";

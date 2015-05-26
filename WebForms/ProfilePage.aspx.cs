@@ -53,7 +53,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
                     if (esteProfesor(username) == false) Button5.Visible = false;
                 }
-                h1.InnerText = Request.QueryString["Nume"];
+                
             }
             LoadTraining();
         }

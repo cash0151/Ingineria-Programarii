@@ -7,15 +7,15 @@
     <div>
          Profesorul: <asp:HyperLink  ID="HyperLink1"  runat="server"> </asp:HyperLink>
         </div>
-     <div runat="server" id="div4">
+    <div class="RecomandariContainer">
+     <div runat="server" class="cursuriAsemanatoare" id="div4">
            <p>Cursuri asemanatoare</p>
      </div>
     
-     <div runat="server" id="div5">
+     <div runat="server" class="cursuriPtUser" id="div5">
          <p>Cursuri ce v-ar putea interesa</p>
      </div>
-    ====
-
+</div>
     <div class="MarginClass">
 
     <p><asp:Label ID="titluCurs" runat="server" Text="Label"></asp:Label></p>

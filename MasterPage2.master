@@ -20,8 +20,8 @@
 <body >
     <div class="Fundal">
     <form id="form1" runat="server">
-        <div class="Meniu">
-        <ul>
+          <div class="Meniu">
+        <ul class="inline">
             <li>
                 
                
