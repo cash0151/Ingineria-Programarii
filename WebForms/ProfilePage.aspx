@@ -39,8 +39,8 @@
         }
 
    </script>
-
-    <h1 id="h1" runat="server"></h1>
+    <div class="MarginClass">
+    <h1 id="h1" class="textCentru" runat="server"></h1>
      <asp:Table ID="TabelCursuri" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Traininguri </asp:TableHeaderCell>                                       
@@ -56,7 +56,7 @@
          &nbsp;&nbsp;&nbsp;
          <br />
          &nbsp;&nbsp;&nbsp;
-         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px"></asp:TextBox>
+         <asp:TextBox ID="TextBox1" runat="server" Height="113px" TextMode="MultiLine" Width="463px"></asp:TextBox>
          &nbsp;<br /> &nbsp;<br /> &nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" />
          <br />
@@ -101,6 +101,6 @@
         </asp:Table>
   <!--  <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> -->
     <!-- *********-->
-
+    </div>
 </asp:Content>
 

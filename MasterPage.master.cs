@@ -42,12 +42,13 @@ public partial class MasterPage : System.Web.UI.MasterPage
         DataSet ds = GetDataSetForMenu();
         MenuItem ButtonMeniu = new MenuItem("Cursuri");
         menu.Items.Add(ButtonMeniu);
+        
         foreach (DataRow parentItem in ds.Tables["Categorii_Cursuri"].Rows)
         {
             MenuItem categoryItem = new MenuItem((string)parentItem["NumeCategorie"]);
             ButtonMeniu.ChildItems.Add(categoryItem);
             categoryItem.NavigateUrl = "WebForms/CoursesCategories.aspx?Categorie=" + (int)parentItem["Id"];
-
+            
         }
         menu.DataBind();
     }

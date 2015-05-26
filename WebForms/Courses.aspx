@@ -81,7 +81,7 @@
          &nbsp;&nbsp;&nbsp;
          <br />
          &nbsp;&nbsp;&nbsp;
-         <asp:TextBox ID="TextBox1" runat="server" Height="130px" TextMode="MultiLine" Width="954px" Visible="False"></asp:TextBox>
+         <asp:TextBox ID="TextBox1" runat="server" Height="133px" TextMode="MultiLine" Width="439px" Visible="False"></asp:TextBox>
          &nbsp;<br /> &nbsp;<br /> &nbsp;&nbsp;&nbsp;
          <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Add Review" Visible="False" />
          <br />
