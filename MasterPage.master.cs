@@ -11,6 +11,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Init(object sender, EventArgs e)
     {
+        
         LinkButton1.Click += new EventHandler(Button1_Click);
         LinkButton2.Click += new EventHandler(Button1_Click2);
         LinkButton3.Click += new EventHandler(Button1_Click3);

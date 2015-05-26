@@ -39,6 +39,8 @@
         }
 
    </script>
+
+    <h1 id="h1" runat="server"></h1>
      <asp:Table ID="TabelCursuri" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Traininguri </asp:TableHeaderCell>                                       
@@ -90,7 +92,7 @@
              </asp:TableHeaderRow>
         </asp:Table>
 
-    <p> Perechile curs profesor la care nu ai participat si care au fost vodate drept clele mai bune de comuitate: </p>
+    <p> Perechile curs profesor la care nu ai participat si care au fost votate drept cele mai bune de comunitate: </p>
      <asp:Table ID="TablePerechi" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
                     <asp:TableHeaderCell> Nume Curs </asp:TableHeaderCell>

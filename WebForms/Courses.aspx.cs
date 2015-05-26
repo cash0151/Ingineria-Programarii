@@ -19,6 +19,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
 
         if (Request.QueryString["Curs"] != null)
         {
+         
             SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
 
@@ -26,7 +27,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
           
 
 
-            SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program FROM cursuri WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
+            SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program,(SELECT nume FROM useri WHERE id=Profesor) \"prof\"  FROM cursuri  WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
             c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
             c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
             r=c.ExecuteReader();
@@ -37,6 +38,9 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 divContent1.InnerHtml = (String)r["Continut"];
                 divContent2.InnerHtml = (String)r["Locatie"];
                 divContent3.InnerHtml = (String)r["Program"];
+                //zic numele profesorului
+                HyperLink1.Text = (String)r["prof"];
+                HyperLink1.NavigateUrl= "ProfilePage.aspx?Nume=" + (String)r["prof"];
             }
             r.Close();
             if (existaCursul == false)
@@ -120,19 +124,32 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 o = (object)c.ExecuteScalar();
                 int idUser = Convert.ToInt32(o);
 
+
+
+                //recomandarile
+               /* div4.InnerHtml = "";
+                div5.InnerHtml = "";
+                RecommendationSystem rs = new RecommendationSystem();
+                List<CourseValueObject> courses = rs.recommendCoursesFromCathegory(idUser, 1);
+                for (int i = 0; i < courses.Count; i++)
+                {
+                    //in cursuri asemanatoare
+                    div5.InnerHtml += "<a href=\"Courses.aspx?Curs=" + Request.QueryString["Curs"] + "\">" + Request.QueryString["Curs"] + "</a>";
+                }
+
+                c = new SqlCommand("SELECT ", conn);
+                */
+                creazaRecomandariDinIstoric(idUser);
+                //aici se incheie recomandarile
+
+
+
                 c = new SqlCommand("SELECT * FROM Participanti WHERE IdUser=@IdUser AND status IN ('ACTIVE', 'PENDING') AND IdCurs = (SELECT id from Cursuri WHERE NumeCurs = @NumeCurs)", conn);
                 c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
                 c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
                 c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
                 c.Parameters["@idUser"].Value = idUser;
                 r = c.ExecuteReader();
-
-                RecommendationSystem rs = new RecommendationSystem();
-                List<CourseValueObject> courses = rs.recommendCoursesFromCathegory(idUser, 1);
-                LinkButton1.Text = Request.QueryString["Curs"];
-                LinkButton1.OnClientClick = "Courses.aspx?Curs=" +Request.QueryString["Curs"];
-
-
             }
 
             if (utilizator != null && r.HasRows == false)
@@ -185,6 +202,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
 
     protected void registerToThisCourseAction(object sender, EventArgs e)
     {
+        
         SqlConnection conn = DbConnection.GetSqlConnection();
         conn.Open();
         SqlCommand c = new SqlCommand("SELECT id FROM Cursuri WHERE NumeCurs=@NumeCurs", conn);
@@ -408,4 +426,38 @@ public partial class WebForms_Courses : System.Web.UI.Page
 
         Response.Redirect(Request.RawUrl);
     }
+    public void creazaRecomandariDinIstoric(int idUser)
+    {
+        SqlConnection con = DbConnection.GetSqlConnection();
+        con.Open();
+        SqlCommand c = new SqlCommand("SELECT ca.id \"idul\" FROM Categorii_Cursuri ca,Cursuri cu,Participanti p WHERE ca.id=cu.Categorie AND cu.id=p.IdCurs AND p.IdUser=@idUserCurent GROUP BY ca.id ORDER BY COUNT(cu.id) DESC", con);
+        c.Parameters.Add(new SqlParameter("@idUserCurent", TypeCode.Int32));
+        c.Parameters["@idUserCurent"].Value = idUser;
+          SqlDataReader r= c.ExecuteReader();
+        List<Int32> categoriiPreferate=new List<Int32>();  
+        while (r.Read())
+          {
+              categoriiPreferate.Add((Int32)r["idul"]);
+          }
+        int nrRezultate = 0;
+        for (int i = 0; i < categoriiPreferate.Count; i++)
+        {
+            c = new SqlCommand("SELECT cu.numeCurs FROM cursuri cu LEFT OUTER JOIN Reviewuri r ON r.CursId=cu.id  WHERE  cu.Categorie=@idCategorie   AND NOT EXISTS(SELECT '1' FROM Participanti WHERE IdCurs=cu.id AND IdUser=@idUserCurent) GROUP BY cu.numeCurs ORDER BY AVG(Nota) DESC", con);
+          c.Parameters.Add(new SqlParameter("@idUserCurent", TypeCode.Int32));
+          c.Parameters["@idUserCurent"].Value = idUser;
+          c.Parameters.Add(new SqlParameter("@idCategorie ", TypeCode.Int32));
+          c.Parameters["@idCategorie "].Value = categoriiPreferate[i];
+          r = c.ExecuteReader();
+          
+          while (r.Read() && nrRezultate<2)
+          {
+              nrRezultate++;
+              div4.InnerHtml += (String)r["numeCurs"]+"<br/> ";
+           
+          }
+          if (nrRezultate >= 2) break;
+        }
+            con.Close();
+        
+    } 
 }

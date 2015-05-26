@@ -24,7 +24,9 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
       
             //daca nu este logat nu afisez butonul de adaugat traininguri
             if (Session["login"] == null)
+
             {
+                selectPreferinta.Visible = false;
                 Button5.Visible = false;
             }
             else

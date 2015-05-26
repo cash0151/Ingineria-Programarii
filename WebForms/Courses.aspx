@@ -3,9 +3,20 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <div>
+         Profesorul: <asp:HyperLink  ID="HyperLink1"  runat="server"> </asp:HyperLink>
+        </div>
+     <div runat="server" id="div4">
+           <p>Cursuri asemanatoare</p>
+     </div>
+    
+     <div runat="server" id="div5">
+         <p>Cursuri ce v-ar putea interesa</p>
+     </div>
+
     <p><asp:Label ID="titluCurs" runat="server" Text="Label"></asp:Label></p>
     <p>
-         <asp:LinkButton ID="LinkButton1" runat="server"></asp:LinkButton>
+       
         Detalii curs:</p>
     <div runat="server" id="divContent1">
          
