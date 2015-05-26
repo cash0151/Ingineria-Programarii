@@ -83,7 +83,7 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 HtmlGenericControl divcontrol = new HtmlGenericControl();
                 divcontrol.Attributes["class"] = "reviewCurs";
                 divcontrol.TagName = "div";
-                divcontrol.InnerHtml = (String)r["nume"] +
+                divcontrol.InnerHtml ="Utilizator:"+ (String)r["nume"] +
                     "<br/>" + (String)r["text"];
                 Panel1.Controls.Add(divcontrol);
             }
