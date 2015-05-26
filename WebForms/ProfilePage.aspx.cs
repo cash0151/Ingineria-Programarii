@@ -66,7 +66,12 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
                 if (!Request.QueryString["Nume"].Equals(username))
                 {
                     Button5.Visible = false;
+
                     divPreferinte.Visible = false;
+
+                    TabelCursuriLaCareSuntInscris.Visible = false;
+                    oameniInscrisiLaCursurileMele.Visible = false;
+
                 }
                 else
                 {
@@ -322,7 +327,14 @@ public partial class WebForms_ProfilePage : System.Web.UI.Page
 
                     TableCell DeleteCell = new TableCell();
                     ButtonTraining Delete = new ButtonTraining();
-                    Delete.Text = "Sterge";
+                    if (r["Status"].ToString() == "ACTIVE")
+                    {
+                        Delete.Text = "Sterge";
+                    }
+                    else if (r["Status"].ToString() == "PENDING")
+                    {
+                        Delete.Text = "Anuleaza cererea primita de la utilizator";
+                    }
                     Delete.Training = "/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + r["IdUser"].ToString() + "&idCurs=" + r["idCurs"];
                     Delete.Click += new EventHandler(goToDeletePage);
                     DeleteCell.Controls.Add(Delete);

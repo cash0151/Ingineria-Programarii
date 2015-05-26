@@ -23,10 +23,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
             SqlConnection conn = DbConnection.GetSqlConnection();
             conn.Open();
 
-
-          
-
-
             SqlCommand c = new SqlCommand("SELECT Continut,Locatie,Program,(SELECT nume FROM useri WHERE id=Profesor) \"prof\"  FROM cursuri  WHERE id=(Select id FROM cursuri WHERE NumeCurs=@NumeCurs )", conn);
             c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
             c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
@@ -65,50 +61,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
                     "<br/>" + (String)r["text"];
                 Panel1.Controls.Add(divcontrol);
             }
-
-            //String utilizator;
-            //if (Session["login"] != null)
-            //{
-            //    utilizator = ((AppData)Session["login"]).Utilizator;
-            //}
-            //else
-            //{
-            //    utilizator = null;
-            //}
-
-          
-            //if (utilizator != null)
-            //{
-            //    c = new SqlCommand("SELECT id from Useri WHERE Nume=@NumeUser", conn);
-            //    c.Parameters.Add(new SqlParameter("@NumeUser", TypeCode.String));
-            //    c.Parameters["@NumeUser"].Value = utilizator;
-            //    o = (object)c.ExecuteScalar();
-            //    int idUser = Convert.ToInt32(o);
-
-            //    c = new SqlCommand("SELECT * FROM Participanti WHERE IdUser=@IdUser AND status IN ('ACTIVE', 'PENDING') AND IdCurs = (SELECT id from Cursuri WHERE NumeCurs = @NumeCurs)", conn);
-            //    c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
-            //    c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
-            //    c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
-            //    c.Parameters["@idUser"].Value = idUser;
-            //    r = c.ExecuteReader();
-            //}
-
-            //if (utilizator != null && r.HasRows == false)
-            //{
-            //    registerToThisCourse.Visible = true;
-            //    deleteFromThisCourse.Visible = false;
-            //}
-            //else if (utilizator != null && r.HasRows == true)
-            //{
-            //    registerToThisCourse.Visible = false;
-            //    deleteFromThisCourse.Visible = true;
-            //}
-            //else
-            //{
-            //    registerToThisCourse.Visible = false;
-            //    deleteFromThisCourse.Visible = false;
-            //}
-
             
             if (Session["login"] != null)
             {
@@ -144,22 +96,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 o = (object)c.ExecuteScalar();
                 int idUser = Convert.ToInt32(o);
 
-
-
-                //recomandarile
-               /* div4.InnerHtml = "";
-                div5.InnerHtml = "";
-                RecommendationSystem rs = new RecommendationSystem();
-                List<CourseValueObject> courses = rs.recommendCoursesFromCathegory(idUser, 1);
-                for (int i = 0; i < courses.Count; i++)
-                {
-                    //in cursuri asemanatoare
-                    div5.InnerHtml += "<a href=\"Courses.aspx?Curs=" + Request.QueryString["Curs"] + "\">" + Request.QueryString["Curs"] + "</a>";
-                }
-
-                c = new SqlCommand("SELECT ", conn);
-                */
-
                 //recomandari dinamice in functie de ce cursuri este inscris utilizatorul curent.Ia categoria cu cele mai multe cursuri in care
                 //este inscris userul curent si din acea categorie ofera primele primele 2 in functie de review si in care nu este inscris userul
                 //Daca nu gaseste nici un curs incearca in categoria de pe locul 2. si tot asa pana gaseste 2 cursuri.
@@ -168,6 +104,7 @@ public partial class WebForms_Courses : System.Web.UI.Page
                 //recomandari statice in functie de cursul pe care il vizioneaza utilizatorul.
                 creazaRecomandariStatice(Request.QueryString["Curs"],idUser);
 
+                //recomandari dinamice in functie de cursul in care te afli
                 //aici se incheie recomandarile
 
 
@@ -329,60 +266,6 @@ public partial class WebForms_Courses : System.Web.UI.Page
         reader.Close();       
         return id;
     }
-
-    //protected void registerToThisCourseAction(object sender, EventArgs e)
-    //{
-    //    SqlConnection conn = DbConnection.GetSqlConnection();
-    //    conn.Open();
-    //    SqlCommand c = new SqlCommand("SELECT id FROM Cursuri WHERE NumeCurs=@NumeCurs", conn);
-    //    c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
-    //    c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
-    //    object o = (object)c.ExecuteScalar();
-    //    int idCurs = Convert.ToInt32(o);
-
-    //    String utilizator = ((AppData)Session["login"]).Utilizator;
-    //    c = new SqlCommand("SELECT id from Useri WHERE Nume=@NumeUser", conn);
-    //    c.Parameters.Add(new SqlParameter("@NumeUser", TypeCode.String));
-    //    c.Parameters["@NumeUser"].Value = utilizator;
-    //    o = (object)c.ExecuteScalar();
-    //    int idUser = Convert.ToInt32(o);
-
-    //    c = new SqlCommand("INSERT INTO Participanti(IdCurs, IdUser, Status) VALUES (@idCurs, @idUser, 'PENDING')", conn);
-    //    c.Parameters.Add(new SqlParameter("@idCurs", TypeCode.Int32));
-    //    c.Parameters["@idCurs"].Value = idCurs;
-    //    c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
-    //    c.Parameters["@idUser"].Value = idUser;
-    //    c.ExecuteReader();
-
-    //    Response.Redirect(Request.RawUrl);
-    //}
-
-    //protected void deleteFromThisCourseAction(object sender, EventArgs e)
-    //{
-    //    SqlConnection conn = DbConnection.GetSqlConnection();
-    //    conn.Open();
-    //    SqlCommand c = new SqlCommand("SELECT id FROM Cursuri WHERE NumeCurs=@NumeCurs", conn);
-    //    c.Parameters.Add(new SqlParameter("@NumeCurs", TypeCode.String));
-    //    c.Parameters["@NumeCurs"].Value = Request.QueryString["Curs"];
-    //    object o = (object)c.ExecuteScalar();
-    //    int idCurs = Convert.ToInt32(o);
-
-    //    String utilizator = ((AppData)Session["login"]).Utilizator;
-    //    c = new SqlCommand("SELECT id from Useri WHERE Nume=@NumeUser", conn);
-    //    c.Parameters.Add(new SqlParameter("@NumeUser", TypeCode.String));
-    //    c.Parameters["@NumeUser"].Value = utilizator;
-    //    o = (object)c.ExecuteScalar();
-    //    int idUser = Convert.ToInt32(o);
-
-    //    c = new SqlCommand("DELETE FROM Participanti WHERE IdCurs=@idCurs AND IdUser=@idUser", conn);
-    //    c.Parameters.Add(new SqlParameter("@idCurs", TypeCode.Int32));
-    //    c.Parameters["@idCurs"].Value = idCurs;
-    //    c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
-    //    c.Parameters["@idUser"].Value = idUser;
-    //    c.ExecuteReader();
-
-    //    Response.Redirect(Request.RawUrl);
-    //}
 
     public int GetUserId(string Name)
     {

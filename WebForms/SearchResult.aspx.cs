@@ -13,8 +13,8 @@ public partial class WebForms_SearchResult : System.Web.UI.Page
         if (Request.QueryString["query"] != null)
         {
 
-			
-				               SearchEngine se = new SearchEngine();
+            SearchEngine se = new SearchEngine();
+
             SqlConnection con = DbConnection.GetSqlConnection();
             con.Open();
 
