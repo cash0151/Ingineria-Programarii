@@ -50,6 +50,24 @@
      <br />
      <br />
 
+    <asp:Table ID="TabelCursuriLaCareSuntInscris" runat="server">
+        <asp:TableHeaderRow BackColor=Aqua>
+            <asp:TableHeaderCell runat="server">Cursuri la care sunt inscris</asp:TableHeaderCell>                                       
+        </asp:TableHeaderRow>
+    </asp:Table>
+
+    <br />
+    <br />
+
+    <asp:Table ID="oameniInscrisiLaCursurileMele" runat="server">
+        <asp:TableHeaderRow BackColor=Aqua>
+            <asp:TableHeaderCell runat="server">Oameni inscrisi la cursurile mele</asp:TableHeaderCell>                                       
+        </asp:TableHeaderRow>
+    </asp:Table>
+
+    <br />
+    <br />
+
      <asp:Panel ID="PanelRating" runat="server">
          &nbsp;&nbsp;&nbsp; &nbsp;Review
          <br />

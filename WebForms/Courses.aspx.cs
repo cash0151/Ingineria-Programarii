@@ -187,8 +187,22 @@ public partial class WebForms_Courses : System.Web.UI.Page
             }
             else if (utilizator != null && r.HasRows == true)
             {
-                registerToThisCourse.Visible = false;
-                deleteFromThisCourse.Visible = true;
+                string status = null;
+                while (r.Read())
+                {
+                    status = r["Status"].ToString();
+                }
+                if (status == "ACTIVE")
+                {
+                    registerToThisCourse.Visible = false;
+                    deleteFromThisCourse.Visible = true;
+                }
+                else
+                {
+                    registerToThisCourse.Visible = false;
+                    deleteFromThisCourse.Visible = true;
+                    deleteFromThisCourse.Text = "Anuleaza cererea de inscriere trimisa";
+                }
             }
             else
             {
@@ -253,6 +267,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
         c.Parameters["@idUser"].Value = idUser;
         c.ExecuteReader();
 
+        conn.Close();
+
         Response.Redirect(Request.RawUrl);
     }
 
@@ -279,6 +295,8 @@ public partial class WebForms_Courses : System.Web.UI.Page
         c.Parameters.Add(new SqlParameter("@idUser", TypeCode.Int32));
         c.Parameters["@idUser"].Value = idUser;
         c.ExecuteReader();
+
+        conn.Close();
 
         Response.Redirect(Request.RawUrl);
 

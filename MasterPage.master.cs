@@ -100,17 +100,26 @@ public partial class MasterPage : System.Web.UI.MasterPage
                     SqlDataReader s = d.ExecuteReader();
 
                     //daca exista doritori, afisam notificare profesorului
-                    while (s.Read())
+                    if (s.HasRows)
                     {
-                        SqlCommand pendingUsers = new SqlCommand("SELECT Nume from Useri WHERE Id=" + s["IdUser"], conn);
-                        SqlDataReader t = pendingUsers.ExecuteReader();
-                        while (t.Read())
+                        while (s.Read())
                         {
-                            notificare += "User-ul '" + t["Nume"] + "' solicita inscrierea la cursul <a href='/WebForms/Courses.aspx?Curs=" + r["NumeCurs"] + "'>" + r["NumeCurs"] + "</a><br/>";
+                            SqlCommand pendingUsers = new SqlCommand("SELECT Nume from Useri WHERE Id=" + s["IdUser"], conn);
+                            SqlDataReader t = pendingUsers.ExecuteReader();
+
+                            while (t.Read())
+                            {
+                                notificare += "User-ul '" + t["Nume"] + "' solicita inscrierea la cursul <a href='/WebForms/Courses.aspx?Curs=" + r["NumeCurs"] + "'>" + r["NumeCurs"] + "</a>&nbsp;<a href='/WebForms/AcceptCourseRegistrationPage.aspx?idDoritor=" + s["IdUser"].ToString() + "&idCurs=" + r["id"] + "'>Accept</a>&nbsp;<a href='/WebForms/DeclineCourseRegistrationPage.aspx?idDoritor=" + s["IdUser"].ToString() + "&idCurs=" + r["id"] + "'>Decline</a><br/>";
+                            }
                         }
                     }
+                    else
+                    {
+                        Label1.InnerHtml = "Nu aveti notificari!";
+                    }
                 }
-                Label1.InnerHtml = notificare;
+                if (notificare.Equals("") == false)
+                    Label1.InnerHtml = notificare;
             }
             else
             {
