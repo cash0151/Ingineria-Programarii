@@ -199,7 +199,9 @@ INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(4,1,'ACTIVE','SEEN')
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(6,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(7,1,'ACTIVE','SEEN');
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(8,1,'ACTIVE','SEEN');
-
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(20,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(21,1,'ACTIVE','SEEN');
+INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(22,1,'ACTIVE','SEEN');
 --
 --Ana corin participa la curspul de Dezvoltare
 INSERT INTO Participanti(IdCurs,IdUser,Status,Vazut) VALUES(2,9,'ACTIVE','SEEN');

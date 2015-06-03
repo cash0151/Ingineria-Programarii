@@ -9,6 +9,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+    <div class="MarginClass">
     <p>
         <asp:Label ID="Label1" runat="server"></asp:Label>
     </p>
@@ -44,5 +45,6 @@
     <p>
         <asp:Button ID="Button4" runat="server" Text="Creaza" OnClick="Button4_Click" />
     </p>
+        </div>
 </asp:Content>
 

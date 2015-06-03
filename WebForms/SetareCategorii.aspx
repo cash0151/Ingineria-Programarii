@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
 
-    <br/>
+    <div class="MarginClass">
 
     <asp:Table ID="TabelPreferinteSelectate" runat="server">
            <asp:TableHeaderRow BackColor=Aqua>
@@ -19,4 +19,5 @@
                     <asp:TableHeaderCell>  </asp:TableHeaderCell>                                        
              </asp:TableHeaderRow>
         </asp:Table>
+        </div>
 </asp:Content>
